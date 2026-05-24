@@ -1,0 +1,40 @@
+@import "tailwindcss";
+
+@theme {
+  --color-fc-pink: #E5267F;
+  --color-fc-blue: #5B7BBE;
+  --color-fc-green: #B5CC2B;
+  --color-ch-light: #EEEEEE;
+  --color-ch-green: #6FCF97;
+  --color-ch-teal: #2FA084;
+  --color-ch-dark: #1F6F5F;
+  
+  /* Map logical Tailwind names directly to CSS variables */
+  --color-primary: var(--primary-color);
+  --color-secondary: var(--secondary-color);
+  --color-text-light: var(--text-light);
+  --color-bg-white: var(--bg-white);
+  --color-bg-light: var(--bg-light);
+  --color-bg-gray: var(--bg-gray);
+  --color-border-color: var(--border-color);
+
+  --font-heading: Outfit, sans-serif;
+  --font-body: Plus Jakarta Sans, sans-serif;
+}
+
+
+@layer base {
+  :root {
+    /* Core Variables from the old site */
+    --primary-color: #2FA084;
+    --secondary-color: #1F6F5F;
+    --fc-pink: #E5267F;
+    --text-light: #4A5568;
+    --bg-white: #FFFFFF;
+    --bg-light: #EEEEEE;
+    --bg-gray: #F8FAFC;
+    --border-color: #E2E8F0;
+    --font-heading: 'Outfit', sans-serif;
+    --font-body: 'Plus Jakarta Sans', sans-serif;
+  }
+}
