@@ -50,18 +50,33 @@ const Footer = () => {
           {/* 4. Contact Us */}
           <div className="footer-col-contact">
             <h4 className="footer-heading">Contact Us</h4>
-            <ul className="flex flex-col gap-5">
-              <li className="flex items-start gap-3">
-                <i className="fa-solid fa-location-dot text-[#2fa084] mt-1"></i>
-                <span className="text-gray-500 text-sm leading-relaxed">Plot No. 3, G.I.D.C-2, Jamwadi,<br/>Gondal, Rajkot, Gujarat - 360311</span>
+            <ul className="flex flex-col gap-6">
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-blue-50 text-[#546e9d] flex items-center justify-center shrink-0 mt-1">
+                   <i className="fa-solid fa-location-dot"></i>
+                </div>
+                <div>
+                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">Office & Manufacturing Address</h5>
+                   <span className="text-gray-500 text-sm leading-relaxed">R S NO 9 P4/P1, Plot No 1 & 2, National Highway 27, Opp. BPCL Petrol Pump, Biliyala, Gondal, Rajkot, Gujarat-360005</span>
+                </div>
               </li>
-              <li className="flex items-center gap-3">
-                <i className="fa-solid fa-phone text-[#2fa084]"></i>
-                <span className="text-gray-500 text-sm">+91 99999 99999</span>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center shrink-0">
+                   <i className="fa-solid fa-phone"></i>
+                </div>
+                <div>
+                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">Contact No.</h5>
+                   <span className="text-gray-500 text-sm">+91 90 93 94 95 99</span>
+                </div>
               </li>
-              <li className="flex items-center gap-3">
-                <i className="fa-solid fa-envelope text-[#2fa084]"></i>
-                <span className="text-gray-500 text-sm">flashcab12@gmail.com</span>
+              <li className="flex items-start gap-4">
+                <div className="w-10 h-10 rounded-full bg-green-50 text-[#2fa084] flex items-center justify-center shrink-0">
+                   <i className="fa-regular fa-envelope"></i>
+                </div>
+                <div>
+                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">E-mail</h5>
+                   <span className="text-gray-500 text-sm">info@flashcabcables.com</span>
+                </div>
               </li>
             </ul>
           </div>
