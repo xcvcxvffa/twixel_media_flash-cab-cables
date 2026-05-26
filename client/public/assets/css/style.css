@@ -93,6 +93,45 @@ ul {
   text-align: center;
 }
 
+/* Global Section Typography */
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 20px;
+  background-color: rgba(31, 111, 95, 0.08); /* var(--secondary-color) with opacity */
+  color: var(--secondary-color);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  border-radius: 50px;
+  margin-bottom: 24px;
+  border: 1px solid rgba(31, 111, 95, 0.15);
+  box-shadow: 0 4px 10px rgba(31, 111, 95, 0.05);
+}
+
+.section-title {
+  font-family: var(--font-heading);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 800;
+  color: var(--secondary-color);
+  line-height: 1.2;
+  margin-bottom: 20px;
+  letter-spacing: -1px;
+}
+
+.section-description {
+  font-family: var(--font-body);
+  font-size: 18px;
+  color: var(--text-light);
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.7;
+  font-weight: 400;
+}
+
 .text-gradient {
   color: var(--fc-blue);
   /* Removed gradient text for cleaner Sterlite look */
@@ -1720,4 +1759,115 @@ ul {
   .clients-grid { grid-template-columns: repeat(2, 1fr); gap: 30px 15px; }
   .clients-title { font-size: 28px; }
   .clients-section { padding: 50px 20px; }
+}
+
+/* =========================================================================
+   CUSTOM REDESIGN - CLIENTS & OUR IMPACT SECTIONS
+   ========================================================================= */
+@keyframes marqueeLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); } 
+}
+
+.animate-marquee-left {
+  animation: marqueeLeft 30s linear infinite;
+  width: max-content;
+}
+
+.slider-mask {
+  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.clients-inner-box {
+  padding: 50px 24px !important;
+}
+
+@media (min-width: 1024px) {
+  .clients-inner-box {
+    padding: 60px 48px !important;
+  }
+}
+
+.impact-inner-box {
+  background: #000000 !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+  box-shadow: none !important;
+  padding: 60px 24px !important;
+}
+
+@media (min-width: 768px) {
+  .impact-inner-box {
+    padding: 80px 48px !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .impact-inner-box {
+    padding: 100px 80px !important;
+  }
+}
+
+.impact-card {
+  padding: 35px 30px !important;
+  min-height: 260px !important;
+}
+
+@media (min-width: 768px) {
+  .impact-card {
+    padding: 45px 40px !important;
+    min-height: 280px !important;
+  }
+}
+
+.impact-eyebrow {
+  display: inline-block;
+  padding: 8px 24px;
+  background: rgba(47, 160, 132, 0.15) !important;
+  color: #2fa084 !important;
+  border-radius: 100px;
+  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 20px;
+}
+
+.impact-title {
+  font-family: var(--font-heading);
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 700;
+  color: #ffffff !important;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.impact-desc {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  color: #a0aec0 !important;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto 40px !important;
+  text-align: center;
+}
+
+/* Custom Spacing Utility */
+.industry-strip-spacing {
+  padding-top: 20px;
+}
+
+/* Badge specific margin top */
+.badge-spacing {
+  margin-top: 80px;
+}
+
+@media (max-width: 768px) {
+  .badge-spacing {
+    margin-top: 48px;
+  }
 }

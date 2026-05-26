@@ -11,8 +11,8 @@ function AppContent() {
   
   return (
     <>
-      {/* Passing location.pathname as key forces the Preloader to remount & run on EVERY page change */}
-      <Preloader key={location.pathname} />
+      {/* Preloader runs once when the app is first mounted */}
+      <Preloader />
       <div className="font-body text-text-light bg-bg-white min-h-screen flex flex-col">
         <Header />
         <main className="flex-grow">

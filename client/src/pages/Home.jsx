@@ -1,9 +1,46 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { motion, useInView } from 'framer-motion';
+import { Zap, Star, Globe } from 'lucide-react';
+import ProductUsage from '../components/ProductUsage';
 
 gsap.registerPlugin(ScrollTrigger);
+
+const AnimatedNumber = ({ target }) => {
+    const [phase, setPhase] = useState(0);
+    const ref = useRef(null);
+    const isInView = useInView(ref, { once: true, margin: "-100px" });
+
+    useEffect(() => {
+        if (isInView) {
+            const timer1 = setTimeout(() => setPhase(1), 200);
+            const timer2 = setTimeout(() => setPhase(2), 600);
+            return () => { clearTimeout(timer1); clearTimeout(timer2); };
+        }
+    }, [isInView]);
+
+    const half = Math.floor(target / 2);
+
+    return (
+        <span ref={ref} className="text-white text-5xl md:text-6xl font-bold tracking-tight font-heading inline-flex items-center">
+            <span style={{ height: '1.2em', overflow: 'hidden', display: 'inline-block' }}>
+                <div style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    transform: `translateY(-${phase * 33.333}%)`,
+                    transition: 'transform 0.6s cubic-bezier(0.76, 0, 0.24, 1)'
+                }}>
+                    <span style={{ height: '1.2em', lineHeight: '1.2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>0</span>
+                    <span style={{ height: '1.2em', lineHeight: '1.2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{half}</span>
+                    <span style={{ height: '1.2em', lineHeight: '1.2em', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{target}</span>
+                </div>
+            </span>
+            <span className="ml-1">+</span>
+        </span>
+    );
+};
 
 const Home = () => {
   const container = useRef(null);
@@ -160,6 +197,43 @@ const Home = () => {
         { y: 40, autoAlpha: 0 },
         { y: 0, autoAlpha: 1, duration: 0.8, stagger: 0.2, ease: "power3.out", scrollTrigger: { trigger: '.premium-stats-grid', start: "top 85%" } }
     );
+
+    // 3.5. Our Impact Section ScrollTrigger Animations
+    gsap.fromTo('.impact-card', 
+        { y: 50, autoAlpha: 0 },
+        { 
+            y: 0, 
+            autoAlpha: 1, 
+            duration: 1, 
+            stagger: 0.2, 
+            ease: "power3.out", 
+            scrollTrigger: { 
+                trigger: '.impact-grid', 
+                start: "top 85%" 
+            } 
+        }
+    );
+
+    gsap.utils.toArray('.impact-stat-number').forEach(stat => {
+        const target = parseInt(stat.getAttribute('data-target'), 10);
+        gsap.fromTo(stat, 
+            { textContent: 0 },
+            {
+                textContent: target,
+                duration: 2,
+                ease: "power3.out",
+                snap: { textContent: 1 },
+                scrollTrigger: {
+                    trigger: stat,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                onUpdate: function() {
+                    stat.innerHTML = Math.floor(stat.textContent) + "+";
+                }
+            }
+        );
+    });
 
     // 4. Fade Up Reveal for Cards/Content
     gsap.from('.gsap-reveal, .gsap-stagger-text h4, .gsap-stagger-text h5, .product-band-item', {
@@ -356,8 +430,16 @@ const Home = () => {
                           </div>
                       </div>
                       
-                      <a href="/about" className="btn-uiverse" style={{ marginTop: '40px' }}>
-                          <span>Discover Our Story &rarr;</span>
+                      <a href="/about" className="btn-uiverse group" style={{ marginTop: '40px' }}>
+                          <span className="flex items-center gap-2.5">
+                              Discover Our Story
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
+                                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                  <path d="M5 12l14 0" />
+                                  <path d="M15 16l4 -4" />
+                                  <path d="M15 8l4 4" />
+                              </svg>
+                          </span>
                       </a>
                   </div>
                   
@@ -570,8 +652,16 @@ const Home = () => {
                   </div>
               </div>
               
-              <a href="#" className="btn-uiverse" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
-                  <span style={{ color: '#fff' }}>Explore Cables &rarr;</span>
+              <a href="#" className="btn-uiverse group" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
+                  <span className="flex items-center gap-2.5" style={{ color: '#fff' }}>
+                      Explore Cables
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M5 12l14 0" />
+                          <path d="M15 16l4 -4" />
+                          <path d="M15 8l4 4" />
+                      </svg>
+                  </span>
               </a>
           </div>
       </section>
@@ -613,8 +703,16 @@ const Home = () => {
                   </div>
               </div>
               
-              <a href="#" className="btn-uiverse" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
-                  <span style={{ color: '#fff' }}>Explore Conductors &rarr;</span>
+              <a href="#" className="btn-uiverse group" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
+                  <span className="flex items-center gap-2.5" style={{ color: '#fff' }}>
+                      Explore Conductors
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M5 12l14 0" />
+                          <path d="M15 16l4 -4" />
+                          <path d="M15 8l4 4" />
+                      </svg>
+                  </span>
               </a>
           </div>
       </section>
@@ -652,30 +750,37 @@ const Home = () => {
                   </div>
               </div>
               
-              <a href="#" className="btn-uiverse" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
-                  <span style={{ color: '#fff' }}>Explore OPGW &rarr;</span>
+              <a href="#" className="btn-uiverse group" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
+                  <span className="flex items-center gap-2.5" style={{ color: '#fff' }}>
+                      Explore OPGW
+                      <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                          <path d="M5 12l14 0" />
+                          <path d="M15 16l4 -4" />
+                          <path d="M15 8l4 4" />
+                      </svg>
+                  </span>
               </a>
           </div>
       </section>
 
       {/* 2.10 Clients Section */}
       {/* 2.10 Clients Section - Side-by-Side Marquee */}
-      {/* 2.10 Clients Section - Side-by-Side Marquee */}
-      <section className="py-16 bg-white overflow-hidden gsap-reveal products-wrapper">
-          <div className="products-inner-box bg-[#e0e0e0] rounded-[2rem] flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative mx-auto" style={{ padding: '10px 20px' }}>
+      <section className="bg-white overflow-hidden gsap-reveal products-wrapper" style={{ paddingTop: '0px', paddingBottom: '80px' }}>
+          <div className="products-inner-box bg-[#e0e0e0] rounded-[2rem] flex flex-col lg:flex-row items-center gap-4 lg:gap-8 relative mx-auto clients-inner-box">
               
               {/* Left Side: Static Text */}
               <div className="w-full lg:w-1/4 shrink-0 z-10 flex items-center justify-start text-left" style={{ paddingLeft: '30px' }}>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight mb-0" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight m-0" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
                       Trusted by<br/>Industry Leaders
                   </h2>
               </div>
 
               {/* Vertical Divider Line */}
-              <div className="hidden lg:block w-[1px] h-24 bg-[#1F6F5F]/20 shrink-0 z-10"></div>
+              <div className="hidden lg:block w-[1px] h-16 bg-[#1F6F5F]/20 shrink-0 z-10"></div>
 
               {/* Right Side: Slider */}
-              <div className="w-full lg:flex-1 relative flex items-center overflow-hidden z-10 h-32 md:h-40 slider-mask">
+              <div className="w-full lg:flex-1 relative flex items-center overflow-hidden z-10 h-16 lg:h-20 slider-mask">
                   
                   <div className="flex animate-marquee-left whitespace-nowrap items-center hover:[animation-play-state:paused]">
                       {[...Array(4)].map((_, setIdx) => (
@@ -697,151 +802,212 @@ const Home = () => {
                   </div>
               </div>
           </div>
-
-          <style>{`
-              @keyframes marqueeLeft {
-                  0% { transform: translateX(0); }
-                  100% { transform: translateX(-50%); } 
-              }
-              .animate-marquee-left {
-                  animation: marqueeLeft 40s linear infinite;
-                  width: max-content;
-              }
-              .slider-mask {
-                  mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-                  -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
-              }
-          `}</style>
       </section>
+
+      {/* 2.11 Our Impact Section */}
+      <section className="bg-black overflow-hidden gsap-reveal products-wrapper" style={{ paddingTop: '30px', paddingBottom: '30px', background: '#000000' }}>
+          <div className="products-inner-box rounded-[2.5rem] relative mx-auto w-[98%] max-w-[1700px] impact-inner-box overflow-hidden">
+              {/* Removed decorative background blur elements for pure black bg */}
+
+              <div className="relative z-10 w-full px-4 sm:px-6 lg:px-8">
+                  <div className="flex justify-center w-full mb-12">
+                      <div className="text-center max-w-3xl w-full flex flex-col items-center">
+                          <span className="impact-eyebrow">
+                              OUR IMPACT
+                          </span>
+                          <h2 className="impact-title">
+                              Empowering Infrastructure<br/>Across the Nation
+                          </h2>
+                          <p className="impact-desc" style={{ margin: '0 auto' }}>
+                              Driven by engineering excellence, trusted by industry leaders, and committed to electrifying the future.
+                          </p>
+                      </div>
+                  </div>
+
+                  {/* Stats Grid */}
+                  <div className="flex justify-center w-full">
+                      <div className="impact-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-[1550px] w-full"
+                           onMouseMove={(e) => {
+                               for(const card of document.querySelectorAll('.spotlight-card')) {
+                                   const rect = card.getBoundingClientRect();
+                                   const x = e.clientX - rect.left;
+                                   const y = e.clientY - rect.top;
+                                   card.style.setProperty("--mouse-x", `${x}px`);
+                                   card.style.setProperty("--mouse-y", `${y}px`);
+                               }
+                           }}>
+                          
+                          {/* Card 1: Cable Supplied */}
+                          <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
+                              <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
+                                   style={{ 
+                                       background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(47,160,132,0.8), transparent 40%)',
+                                       padding: '1px',
+                                       WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                       WebkitMaskComposite: 'xor',
+                                       maskComposite: 'exclude',
+                                       margin: '-1px'
+                                   }}>
+                              </div>
+                              <div className="flex justify-between items-start w-full gap-4 relative z-10">
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Km of extra-high voltage & optical cables supplied nationwide.
+                                  </p>
+                                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                                      {/* Animated Bolt Icon */}
+                                      <motion.div animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
+                                          <Zap size={24} color="#2fa084" />
+                                      </motion.div>
+                                  </div>
+                              </div>
+                              <div className="flex items-center justify-start w-full mt-4">
+                                  <AnimatedNumber target={500} />
+                                  <span className="text-2xl md:text-3xl font-bold text-[#2fa084] ml-1">Km</span>
+                                  {/* Green Upward Arrow */}
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M12 5l0 14" />
+                                      <path d="M18 11l-6 -6" />
+                                      <path d="M6 11l6 -6" />
+                                  </svg>
+                              </div>
+                          </div>
+
+                          {/* Card 2: Industry Experience */}
+                          <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
+                              <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
+                                   style={{ 
+                                       background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(252,185,0,0.8), transparent 40%)',
+                                       padding: '1px',
+                                       WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                       WebkitMaskComposite: 'xor',
+                                       maskComposite: 'exclude',
+                                       margin: '-1px'
+                                   }}>
+                              </div>
+                              <div className="flex justify-between items-start w-full gap-4 relative z-10">
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Years of unmatched heritage & innovative engineering experience.
+                                  </p>
+                                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                                      {/* Animated Star Icon */}
+                                      <motion.div animate={{ rotate: [0, 15, 0], scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}>
+                                          <Star size={24} color="#fcb900" />
+                                      </motion.div>
+                                  </div>
+                              </div>
+                              <div className="flex items-center justify-start w-full mt-4">
+                                  <AnimatedNumber target={18} />
+                                  <span className="text-2xl md:text-3xl font-bold text-[#fcb900] ml-1">Yrs</span>
+                                  {/* Green Upward Arrow */}
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M12 5l0 14" />
+                                      <path d="M18 11l-6 -6" />
+                                      <path d="M6 11l6 -6" />
+                                  </svg>
+                              </div>
+                          </div>
+
+                          {/* Card 3: States Available In */}
+                          <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
+                              <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
+                                   style={{ 
+                                       background: 'radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(0,115,192,0.8), transparent 40%)',
+                                       padding: '1px',
+                                       WebkitMask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                                       WebkitMaskComposite: 'xor',
+                                       maskComposite: 'exclude',
+                                       margin: '-1px'
+                                   }}>
+                              </div>
+                              <div className="flex justify-between items-start w-full gap-4 relative z-10">
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Major Indian states & active industrial territories served.
+                                  </p>
+                                  <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+                                      {/* Animated Globe Icon */}
+                                      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}>
+                                          <Globe size={24} color="#0073c0" />
+                                      </motion.div>
+                                  </div>
+                              </div>
+                              <div className="flex items-center justify-start w-full mt-4">
+                                  <AnimatedNumber target={20} />
+                                  <span className="text-2xl md:text-3xl font-bold text-[#0073c0] ml-1">States</span>
+                                  {/* Green Upward Arrow */}
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
+                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                      <path d="M12 5l0 14" />
+                                      <path d="M18 11l-6 -6" />
+                                      <path d="M6 11l6 -6" />
+                                  </svg>
+                              </div>
+                          </div>
+
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </section>
+
+      <ProductUsage />
 
       {/* 3. What We Do (Cards) */}
       <section className="section-padding gsap-stagger-text" style={{ background: 'var(--bg-white)' }}>
-          <div className="container text-center mx-auto">
-              <h2 style={{ fontSize: '42px', marginBottom: '60px' }}>What We Do</h2>
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }} className="gsap-reveal">
+          <div className="container text-center mx-auto px-4 sm:px-6 lg:px-8">
+              <span className="subtitle">WHAT WE DO</span>
+              <h2 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-center mt-4 mb-4" style={{ color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)' }}>
+                  Empowering Infrastructure & Homes
+              </h2>
+              <p className="text-gray-600 font-medium text-base md:text-lg leading-relaxed text-center max-w-2xl mx-auto mb-16" style={{ fontFamily: 'var(--font-body)' }}>
+                  Driven by advanced engineering, our cables deliver highly reliable electrical currents across all application layers.
+              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-[1550px] mx-auto w-full gsap-reveal">
                   
-                  <div style={{ background: 'var(--bg-light)', padding: '40px', borderRadius: '20px', flex: 1, minWidth: '250px', textAlign: 'left' }}>
-                      <i className="fa-solid fa-bolt" style={{ fontSize: '32px', color: 'var(--primary-color)', marginBottom: '20px' }}></i>
-                      <h4 style={{ fontSize: '20px', marginBottom: '15px' }}>Power Transmission</h4>
-                      <p style={{ fontSize: '14px', color: 'var(--text-light)' }}>High voltage cables designed for massive infrastructural loads.</p>
+                  {/* Card 1: Power Transmission */}
+                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#2fa084]/30 hover:shadow-[0_30px_60px_rgba(47,160,132,0.1)] group flex-grow min-h-[320px] w-full">
+                      <div className="w-16 h-16 rounded-2xl bg-[#2fa084]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                          <i className="fa-solid fa-bolt text-3xl text-[#2fa084]"></i>
+                      </div>
+                      <div className="flex-grow w-full">
+                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                              Power Transmission
+                          </h4>
+                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                              High voltage cables designed for massive infrastructural loads.
+                          </p>
+                      </div>
                   </div>
                   
-                  <div style={{ background: 'var(--bg-light)', padding: '40px', borderRadius: '20px', flex: 1, minWidth: '250px', textAlign: 'left' }}>
-                      <i className="fa-solid fa-house-signal" style={{ fontSize: '32px', color: 'var(--primary-color)', marginBottom: '20px' }}></i>
-                      <h4 style={{ fontSize: '20px', marginBottom: '15px' }}>Domestic Wiring</h4>
-                      <p style={{ fontSize: '14px', color: 'var(--text-light)' }}>Flame retardant solutions ensuring safety in every home.</p>
-                  </div>
-
-                  <div style={{ background: 'var(--bg-light)', padding: '40px', borderRadius: '20px', flex: 1, minWidth: '250px', textAlign: 'left' }}>
-                      <i className="fa-solid fa-shield-halved" style={{ fontSize: '32px', color: 'var(--primary-color)', marginBottom: '20px' }}></i>
-                      <h4 style={{ fontSize: '20px', marginBottom: '15px' }}>Industrial Cables</h4>
-                      <p style={{ fontSize: '14px', color: 'var(--text-light)' }}>Heavy-duty flexible cables for machinery and automation.</p>
-                  </div>
-
-              </div>
-          </div>
-      </section>
-
-      {/* 4. A Decade of Excellence (Dark) */}
-      <section className="dark-section gsap-stagger-text" style={{ textAlign: 'center' }}>
-          <div className="container mx-auto">
-              <span style={{ color: 'var(--primary-color)', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase' }}>Since 1999</span>
-              <h2 style={{ fontSize: '64px', marginTop: '20px', marginBottom: '40px', letterSpacing: '-0.04em' }}>A Legacy of Excellence</h2>
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '20px' }}>
-                  <div style={{ height: '2px', width: '100px', background: '#333' }}></div>
-                  <a href="/about" className="btn btn-outline" style={{ color: 'white', borderColor: 'white' }}>Our Journey</a>
-                  <div style={{ height: '2px', width: '100px', background: '#333' }}></div>
-              </div>
-          </div>
-      </section>
-
-      {/* 5. Product Bands */}
-      <section className="product-band gsap-stagger-text">
-          <div className="container mx-auto">
-              <h2 style={{ fontSize: '54px', letterSpacing: '-0.04em', color: '#ccc' }}>CABLES</h2>
-              <p style={{ marginTop: '10px', fontWeight: 500 }}>Low Tension | High Tension | Extra High Voltage</p>
-              <div className="product-band-items">
-                  <div className="product-band-item">
-                      <img src="/assets/images/house_wiring.png" alt="FR Wires" />
-                      <h5>FR Wires</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/repair_service.png" alt="Submersible" />
-                      <h5>Submersible</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/industrial_cable.png" alt="Flexible" />
-                      <h5>Flexible Multicore</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/house_wiring.png" alt="Armoured" />
-                      <h5>Armoured</h5>
-                  </div>
-              </div>
-              <a href="/product" className="btn btn-primary anime-btn" style={{ marginTop: '40px' }}>View All Cables</a>
-          </div>
-      </section>
-
-      <section className="product-band gsap-stagger-text" style={{ background: 'var(--bg-white)' }}>
-          <div className="container mx-auto">
-              <h2 style={{ fontSize: '54px', letterSpacing: '-0.04em', color: '#ccc' }}>CONDUCTORS</h2>
-              <p style={{ marginTop: '10px', fontWeight: 500 }}>AAC | AAAC | ACSR | HTLS Conductors</p>
-              <div className="product-band-items">
-                  <div className="product-band-item">
-                      <img src="/assets/images/industrial_cable.png" alt="AAC" />
-                      <h5>AAC</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/industrial_cable.png" alt="AAAC" />
-                      <h5>AAAC</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/industrial_cable.png" alt="ACSR" />
-                      <h5>ACSR</h5>
-                  </div>
-              </div>
-              <a href="/product" className="btn btn-outline anime-btn" style={{ marginTop: '40px' }}>Explore Conductors</a>
-          </div>
-      </section>
-
-      <section className="product-band gsap-stagger-text">
-          <div className="container mx-auto">
-              <h2 style={{ fontSize: '54px', letterSpacing: '-0.04em', color: '#ccc' }}>OPGW</h2>
-              <p style={{ marginTop: '10px', fontWeight: 500 }}>Optical Ground Wires for Telecommunication</p>
-              <div className="product-band-items">
-                  <div className="product-band-item">
-                      <img src="/assets/images/repair_service.png" alt="OPGW 24F" />
-                      <h5>OPGW 24F</h5>
-                  </div>
-                  <div className="product-band-item">
-                      <img src="/assets/images/repair_service.png" alt="OPGW 48F" />
-                      <h5>OPGW 48F</h5>
-                  </div>
-              </div>
-              <a href="/contact" className="btn btn-primary anime-btn" style={{ marginTop: '40px' }}>Inquire Now</a>
-          </div>
-      </section>
-
-      {/* 6. Split News Section */}
-      <section className="section-padding" style={{ background: 'var(--bg-white)' }}>
-          <div className="container mx-auto">
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }} className="gsap-reveal">
-                  
-                  <div style={{ background: "url('/assets/images/team_working.png') center/cover", height: '400px', borderRadius: '20px', position: 'relative', overflow: 'hidden' }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)' }}></div>
-                      <div style={{ position: 'absolute', bottom: '40px', left: '40px', color: 'white' }}>
-                          <span style={{ background: 'var(--primary-color)', padding: '5px 15px', borderRadius: '50px', fontSize: '12px', fontWeight: 'bold' }}>INNOVATION</span>
-                          <h3 style={{ color: 'white', marginTop: '15px', fontSize: '28px' }}>Smart City Solutions</h3>
-                          <a href="/blog" style={{ color: 'white', fontWeight: 600, textDecoration: 'underline', marginTop: '15px', display: 'block' }}>Read Article</a>
+                  {/* Card 2: Domestic Wiring */}
+                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#fcb900]/30 hover:shadow-[0_30px_60px_rgba(252,185,0,0.1)] group flex-grow min-h-[320px] w-full">
+                      <div className="w-16 h-16 rounded-2xl bg-[#fcb900]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                          <i className="fa-solid fa-house-signal text-3xl text-[#fcb900]"></i>
+                      </div>
+                      <div className="flex-grow w-full">
+                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                              Domestic Wiring
+                          </h4>
+                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                              Flame retardant solutions ensuring safety in every home.
+                          </p>
                       </div>
                   </div>
 
-                  <div style={{ background: "url('/assets/images/industrial_cable.png') center/cover", height: '400px', borderRadius: '20px', position: 'relative', overflow: 'hidden' }}>
-                      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', background: 'rgba(0,0,0,0.5)' }}></div>
-                      <div style={{ position: 'absolute', bottom: '40px', left: '40px', color: 'white' }}>
-                          <span style={{ background: 'var(--primary-color)', padding: '5px 15px', borderRadius: '50px', fontSize: '12px', fontWeight: 'bold' }}>SUSTAINABILITY</span>
-                          <h3 style={{ color: 'white', marginTop: '15px', fontSize: '28px' }}>Green Manufacturing Process</h3>
-                          <a href="/about" style={{ color: 'white', fontWeight: 600, textDecoration: 'underline', marginTop: '15px', display: 'block' }}>Learn More</a>
+                  {/* Card 3: Industrial Cables */}
+                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#0073c0]/30 hover:shadow-[0_30px_60px_rgba(0,115,192,0.1)] group flex-grow min-h-[320px] w-full">
+                      <div className="w-16 h-16 rounded-2xl bg-[#0073c0]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                          <i className="fa-solid fa-shield-halved text-3xl text-[#0073c0]"></i>
+                      </div>
+                      <div className="flex-grow w-full">
+                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                              Industrial Cables
+                          </h4>
+                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                              Heavy-duty flexible cables for machinery and automation.
+                          </p>
                       </div>
                   </div>
 
@@ -849,41 +1015,62 @@ const Home = () => {
           </div>
       </section>
 
-      {/* 8. Vertical Integration (Dark Circular) */}
-      <section className="dark-section circular-graphic-section gsap-stagger-text">
-          <div className="container mx-auto">
-              <h2 style={{ fontSize: '48px', letterSpacing: '-0.03em', marginBottom: '20px' }}>FULLY INTEGRATED,<br/>VERTICALLY BACKWARDS</h2>
-              <p style={{ color: '#999', maxWidth: '600px', margin: '0 auto 60px' }}>From raw materials to finished products, our entire supply chain is optimized for unparalleled quality control.</p>
-              
-              <div className="circular-graphic">
-                  <img src="/assets/images/team_working.png" alt="Integrated Facility" style={{ width: '200px', height: '200px', borderRadius: '50%', objectFit: 'cover' }} />
+      {/* Blog & News Section */}
+      <section className="section-padding py-24 bg-[#f8fafc]">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="text-center mb-16">
+                  <span className="subtitle mb-4">LATEST NEWS</span>
+                  <h2 className="text-3xl md:text-5xl font-bold text-[#1f6f5f]" style={{ fontFamily: 'var(--font-heading)' }}>
+                      Insights & Articles
+                  </h2>
               </div>
-              
-              <div style={{ display: 'flex', justifyContent: 'center', gap: '40px' }}>
-                  <div>
-                      <i className="fa-solid fa-industry" style={{ fontSize: '32px', color: '#fff', marginBottom: '15px' }}></i>
-                      <h5 style={{ color: '#fff', fontSize: '18px' }}>Manufacturing</h5>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {/* Blog Card 1 */}
+                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                      <div className="w-full h-56 overflow-hidden">
+                          <img src="/assets/images/industrial_mix_bg.png" alt="Blog 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-8">
+                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 24, 2026</span>
+                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>The Future of Smart City Infrastructure</h3>
+                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">Discover how next-generation cabling solutions are powering the smart cities of tomorrow.</p>
+                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
+                              Read Article 
+                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                          </a>
+                      </div>
                   </div>
-                  <div>
-                      <i className="fa-solid fa-microscope" style={{ fontSize: '32px', color: '#fff', marginBottom: '15px' }}></i>
-                      <h5 style={{ color: '#fff', fontSize: '18px' }}>R&D Center</h5>
+                  {/* Blog Card 2 */}
+                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                      <div className="w-full h-56 overflow-hidden">
+                          <img src="/assets/images/industrial_cable.png" alt="Blog 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-8">
+                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 18, 2026</span>
+                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>Sustainable Manufacturing Processes</h3>
+                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">Our commitment to reducing carbon footprints through green manufacturing technologies.</p>
+                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
+                              Read Article 
+                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                          </a>
+                      </div>
                   </div>
-                  <div>
-                      <i className="fa-solid fa-truck-fast" style={{ fontSize: '32px', color: '#fff', marginBottom: '15px' }}></i>
-                      <h5 style={{ color: '#fff', fontSize: '18px' }}>Global Logistics</h5>
+                  {/* Blog Card 3 */}
+                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
+                      <div className="w-full h-56 overflow-hidden">
+                          <img src="/assets/images/team_working.png" alt="Blog 3" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      </div>
+                      <div className="p-8">
+                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 10, 2026</span>
+                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>Advancements in High-Voltage Cables</h3>
+                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">How new materials are drastically increasing the efficiency of power transmission.</p>
+                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
+                              Read Article 
+                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
+                          </a>
+                      </div>
                   </div>
               </div>
-          </div>
-      </section>
-
-      {/* 9. Global Presence */}
-      <section className="dark-section gsap-stagger-text" style={{ paddingTop: 0, paddingBottom: '150px' }}>
-          <div className="container mx-auto text-center">
-              <div style={{ width: '100%', maxWidth: '600px', margin: '0 auto', padding: '40px', border: '1px dashed #333', borderRadius: '50%' }}>
-                  <i className="fa-solid fa-globe" style={{ fontSize: '120px', color: 'var(--primary-color)' }}></i>
-              </div>
-              <h2 style={{ fontSize: '42px', marginTop: '60px', marginBottom: '20px' }}>Electrifying The World</h2>
-              <p style={{ color: '#999' }}>Exporting to 50+ countries with uncompromising standards.</p>
           </div>
       </section>
     </div>
