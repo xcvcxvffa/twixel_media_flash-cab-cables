@@ -2,71 +2,97 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
+  const brandName = "FLASH CAB CABLES";
+
   return (
-    <footer className="footer">
-        <div className="container">
-            <div className="footer-top">
-                <div className="footer-widget">
-                    <img src="/assets/images/logo.png" alt="Flash Cab Cables" style={{ height: '60px', marginBottom: '20px' }} />
-                    <p style={{ color: '#A0A5B0', marginBottom: '20px' }}>Providing reliable electrical services with a focus on safety, efficiency, and advanced technology for both residential and commercial projects.</p>
-                    <div className="social-icons social-icons-footer">
-                        <a href="#"><i className="fa-brands fa-facebook-f"></i></a>
-                        <a href="#"><i className="fa-brands fa-instagram"></i></a>
-                        <a href="#"><i className="fa-brands fa-twitter"></i></a>
-                        <a href="#"><i className="fa-brands fa-youtube"></i></a>
-                    </div>
-                </div>
-                
-                <div className="footer-widget">
-                    <h3>Quick Links</h3>
-                    <ul>
-                        <li><Link to="/about">About Us</Link></li>
-                        <li><Link to="/products">Our Products</Link></li>
-                        <li><Link to="/blog">Latest News</Link></li>
-                        <li><Link to="/contact">Contact Us</Link></li>
-                    </ul>
-                </div>
-                
-                <div className="footer-widget">
-                    <h3>Our Services</h3>
-                    <ul>
-                        <li><a href="#">Electrical Installations</a></li>
-                        <li><a href="#">Lighting Installation</a></li>
-                        <li><a href="#">Electrical Panel Upgrades</a></li>
-                        <li><a href="#">Electrical Repairs</a></li>
-                        <li><a href="#">Emergency Repair Service</a></li>
-                    </ul>
-                </div>
-                
-                <div className="footer-widget">
-                    <h3>Contact Info</h3>
-                    <ul className="contact-info-list">
-                        <li>
-                            <i className="fa-solid fa-location-dot"></i>
-                            <span>Plot No. 3, G.I.D.C-2, Jamwadi,<br/>Gondal, Rajkot, Gujarat - 360311</span>
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-phone"></i>
-                            <span>+91 99999 99999</span>
-                        </li>
-                        <li>
-                            <i className="fa-solid fa-envelope"></i>
-                            <span>flashcab12@gmail.com</span>
-                        </li>
-                    </ul>
-                </div>
+    <footer className="custom-footer">
+      <div className="custom-footer-container">
+        
+        <div className="custom-footer-top">
+          {/* 1. Logo, Text & Social Links */}
+          <div className="footer-col-about">
+            <Link to="/" className="logo mb-6" style={{ display: 'flex', alignItems: 'center', overflow: 'hidden', height: '80px' }}>
+                <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '200px', width: 'auto', objectFit: 'contain' }} />
+            </Link>
+            <p className="footer-text mb-8">
+              Providing reliable electrical services with a focus on safety, efficiency, and advanced technology.
+            </p>
+            <div className="footer-social-wrapper">
+              <a href="#" className="footer-social-icon"><i className="fa-brands fa-facebook-f"></i></a>
+              <a href="#" className="footer-social-icon"><i className="fa-brands fa-linkedin-in"></i></a>
+              <a href="#" className="footer-social-icon"><i className="fa-brands fa-instagram"></i></a>
+              <a href="#" className="footer-social-icon"><i className="fa-brands fa-whatsapp"></i></a>
             </div>
-            
-            <div className="footer-bottom">
-                <div className="footer-bottom-inner">
-                    <p>&copy; {new Date().getFullYear()} Flash Cab Cables. All Rights Reserved.</p>
-                    <div className="footer-bottom-links">
-                        <a href="#">Terms & Conditions</a>
-                        <a href="#">Privacy Policy</a>
-                    </div>
-                </div>
-            </div>
+          </div>
+
+          {/* 2. Quick Links */}
+          <div className="footer-col-links">
+             <h4 className="footer-heading">Quick Links</h4>
+             <div className="footer-quick-links">
+                 <Link to="/" className="footer-qlink">Home</Link>
+                 <Link to="/about" className="footer-qlink">About Us</Link>
+                 <Link to="/services" className="footer-qlink">Services</Link>
+                 <Link to="/blog" className="footer-qlink">News</Link>
+                 <Link to="/contact" className="footer-qlink">Contact Us</Link>
+             </div>
+          </div>
+
+          {/* 3. Our Products */}
+          <div className="footer-col-links">
+             <h4 className="footer-heading">Our Products</h4>
+             <div className="footer-quick-links">
+                 <Link to="/products" className="footer-qlink">Cables</Link>
+                 <Link to="/products" className="footer-qlink">Conductors</Link>
+                 <Link to="/products" className="footer-qlink">OPGW</Link>
+             </div>
+          </div>
+
+          {/* 4. Contact Us */}
+          <div className="footer-col-contact">
+            <h4 className="footer-heading">Contact Us</h4>
+            <ul className="flex flex-col gap-5">
+              <li className="flex items-start gap-3">
+                <i className="fa-solid fa-location-dot text-[#2fa084] mt-1"></i>
+                <span className="text-gray-500 text-sm leading-relaxed">Plot No. 3, G.I.D.C-2, Jamwadi,<br/>Gondal, Rajkot, Gujarat - 360311</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <i className="fa-solid fa-phone text-[#2fa084]"></i>
+                <span className="text-gray-500 text-sm">+91 99999 99999</span>
+              </li>
+              <li className="flex items-center gap-3">
+                <i className="fa-solid fa-envelope text-[#2fa084]"></i>
+                <span className="text-gray-500 text-sm">flashcab12@gmail.com</span>
+              </li>
+            </ul>
+          </div>
         </div>
+      </div>
+
+      {/* Big Text (Full Width with Character Wave Effect) */}
+      <div className="footer-mega-text-container">
+         <div className="mega-text-wrapper">
+           {brandName.split('').map((char, idx) => (
+             <span key={idx} className="mega-char">
+               {char === ' ' ? '\u00A0' : char}
+             </span>
+           ))}
+         </div>
+      </div>
+
+      <div className="custom-footer-container">
+        {/* Bottom Bar */}
+        <div className="footer-bottom-bar">
+           <p>
+             &copy; {new Date().getFullYear()} Flash Cab Cables. All Rights Reserved. Developed by{' '}
+             <a href="https://twixel.media/" target="_blank" rel="noopener noreferrer" className="hover:text-[#2fa084] transition-colors font-medium">Twixel Media Pvt Ltd</a>
+           </p>
+           <div className="footer-bottom-links">
+              <a href="#">Privacy Policy</a>
+              <a href="#">Terms of Use</a>
+              <a href="#">Refund Policy</a>
+           </div>
+        </div>
+      </div>
     </footer>
   );
 };

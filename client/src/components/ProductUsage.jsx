@@ -26,7 +26,7 @@ const ProductUsage = () => {
                         <span className="impact-eyebrow badge-spacing mb-4 md:mb-6 inline-block">
                             INDUSTRIES WE SERVE
                         </span>
-                        <h2 className="section-title mb-4 text-3xl sm:text-4xl md:text-5xl" style={{ fontWeight: 500, color: '#2FA084' }}>
+                        <h2 className="section-title mb-4 text-3xl sm:text-4xl md:text-5xl" style={{ fontWeight: 500, color: '#FFFFFF' }}>
                             Our Product Usage
                         </h2>
                         <p className="section-description max-w-3xl text-sm sm:text-base md:text-lg px-2 sm:px-0" style={{ margin: '0 auto', color: '#a0aec0' }}>

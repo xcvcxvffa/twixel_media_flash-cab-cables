@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useInView } from 'framer-motion';
-import { Zap, Star, Globe } from 'lucide-react';
+import { Zap, Star, Globe, ArrowRight } from 'lucide-react';
 import ProductUsage from '../components/ProductUsage';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -52,6 +52,34 @@ const Home = () => {
   const conductorsCursorRef = useRef(null);
   const opgwSliderRef = useRef(null);
   const opgwCursorRef = useRef(null);
+
+  // Blog Slider Drag State
+  const blogSliderRef = useRef(null);
+  const isBlogDragging = useRef(false);
+  const startXBlog = useRef(0);
+  const scrollLeftBlog = useRef(0);
+
+  const handleBlogMouseDown = (e) => {
+    isBlogDragging.current = true;
+    blogSliderRef.current.classList.remove('snap-x', 'snap-mandatory');
+    startXBlog.current = e.pageX - blogSliderRef.current.offsetLeft;
+    scrollLeftBlog.current = blogSliderRef.current.scrollLeft;
+  };
+  const handleBlogMouseLeave = () => {
+    isBlogDragging.current = false;
+    blogSliderRef.current.classList.add('snap-x', 'snap-mandatory');
+  };
+  const handleBlogMouseUp = () => {
+    isBlogDragging.current = false;
+    blogSliderRef.current.classList.add('snap-x', 'snap-mandatory');
+  };
+  const handleBlogMouseMove = (e) => {
+    if (!isBlogDragging.current) return;
+    e.preventDefault();
+    const x = e.pageX - blogSliderRef.current.offsetLeft;
+    const walk = (x - startXBlog.current) * 1.5;
+    blogSliderRef.current.scrollLeft = scrollLeftBlog.current - walk;
+  };
 
   useGSAP(() => {
     // 0. Hero Animation (Plays on load, not on scroll - exactly like PHP playHeroAnimation)
@@ -771,7 +799,7 @@ const Home = () => {
               
               {/* Left Side: Static Text */}
               <div className="w-full lg:w-1/4 shrink-0 z-10 flex items-center justify-start text-left" style={{ paddingLeft: '30px' }}>
-                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight m-0" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                  <h2 className="text-2xl md:text-3xl lg:text-4xl font-medium leading-tight m-0" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
                       Trusted by<br/>Industry Leaders
                   </h2>
               </div>
@@ -956,56 +984,56 @@ const Home = () => {
       {/* 3. What We Do (Cards) */}
       <section className="section-padding gsap-stagger-text" style={{ background: 'var(--bg-white)' }}>
           <div className="container text-center mx-auto px-4 sm:px-6 lg:px-8">
-              <span className="subtitle">WHAT WE DO</span>
-              <h2 className="text-3xl md:text-5xl font-extrabold leading-tight tracking-tight text-center mt-4 mb-4" style={{ color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)' }}>
+              <span className="impact-eyebrow inline-block mb-6 md:mb-8">WHAT WE DO</span>
+              <h2 className="global-section-heading">
                   Empowering Infrastructure & Homes
               </h2>
-              <p className="text-gray-600 font-medium text-base md:text-lg leading-relaxed text-center max-w-2xl mx-auto mb-16" style={{ fontFamily: 'var(--font-body)' }}>
+              <p className="global-section-desc">
                   Driven by advanced engineering, our cables deliver highly reliable electrical currents across all application layers.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 max-w-[1550px] mx-auto w-full gsap-reveal">
+              <div className="what-we-do-grid gsap-reveal">
                   
                   {/* Card 1: Power Transmission */}
-                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#2fa084]/30 hover:shadow-[0_30px_60px_rgba(47,160,132,0.1)] group flex-grow min-h-[320px] w-full">
-                      <div className="w-16 h-16 rounded-2xl bg-[#2fa084]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                  <div className="what-we-do-card power-card group">
+                      <div className="what-we-do-icon-wrapper bg-[#2fa084]/10">
                           <i className="fa-solid fa-bolt text-3xl text-[#2fa084]"></i>
                       </div>
                       <div className="flex-grow w-full">
-                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                          <h4 className="what-we-do-title">
                               Power Transmission
                           </h4>
-                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                          <p className="what-we-do-desc">
                               High voltage cables designed for massive infrastructural loads.
                           </p>
                       </div>
                   </div>
                   
                   {/* Card 2: Domestic Wiring */}
-                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#fcb900]/30 hover:shadow-[0_30px_60px_rgba(252,185,0,0.1)] group flex-grow min-h-[320px] w-full">
-                      <div className="w-16 h-16 rounded-2xl bg-[#fcb900]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-6">
+                  <div className="what-we-do-card domestic-card group">
+                      <div className="what-we-do-icon-wrapper bg-[#fcb900]/10">
                           <i className="fa-solid fa-house-signal text-3xl text-[#fcb900]"></i>
                       </div>
                       <div className="flex-grow w-full">
-                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                          <h4 className="what-we-do-title">
                               Domestic Wiring
                           </h4>
-                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                          <p className="what-we-do-desc">
                               Flame retardant solutions ensuring safety in every home.
                           </p>
                       </div>
                   </div>
 
                   {/* Card 3: Industrial Cables */}
-                  <div className="bg-[#f8fafc] border border-gray-100 rounded-[2rem] p-10 md:p-12 flex flex-col justify-between items-start transition-all duration-500 hover:-translate-y-2 hover:bg-white hover:border-[#0073c0]/30 hover:shadow-[0_30px_60px_rgba(0,115,192,0.1)] group flex-grow min-h-[320px] w-full">
-                      <div className="w-16 h-16 rounded-2xl bg-[#0073c0]/10 flex items-center justify-center mb-8 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6">
+                  <div className="what-we-do-card industrial-card group">
+                      <div className="what-we-do-icon-wrapper bg-[#0073c0]/10">
                           <i className="fa-solid fa-shield-halved text-3xl text-[#0073c0]"></i>
                       </div>
                       <div className="flex-grow w-full">
-                          <h4 className="text-xl md:text-2xl font-bold mb-4 text-left" style={{ fontFamily: 'var(--font-heading)', color: 'var(--secondary-color)' }}>
+                          <h4 className="what-we-do-title">
                               Industrial Cables
                           </h4>
-                          <p className="text-gray-500 text-base leading-relaxed text-left" style={{ fontFamily: 'var(--font-body)' }}>
+                          <p className="what-we-do-desc">
                               Heavy-duty flexible cables for machinery and automation.
                           </p>
                       </div>
@@ -1014,62 +1042,123 @@ const Home = () => {
               </div>
           </div>
       </section>
-
       {/* Blog & News Section */}
-      <section className="section-padding py-24 bg-[#f8fafc]">
+      <section className="section-padding py-24 bg-[#f8fafc] overflow-hidden">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="text-center mb-16">
-                  <span className="subtitle mb-4">LATEST NEWS</span>
-                  <h2 className="text-3xl md:text-5xl font-bold text-[#1f6f5f]" style={{ fontFamily: 'var(--font-heading)' }}>
-                      Insights & Articles
-                  </h2>
+              {/* Header */}
+              <div className="flex flex-col md:flex-row md:items-end justify-between gap-6" style={{ marginBottom: '80px' }}>
+                  <div className="text-left">
+                      <h2 className="global-section-heading" style={{ margin: 0, textAlign: 'left' }}>
+                          Insights & Articles
+                      </h2>
+                  </div>
+                  {/* Slider Arrows */}
+                  <div className="flex gap-4">
+                      <button 
+                          onClick={() => blogSliderRef.current?.scrollBy({left: -380, behavior: 'smooth'})}
+                          className="w-10 h-10 rounded-lg bg-white flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm cursor-pointer border border-gray-100"
+                      >
+                          <i className="fa-solid fa-chevron-left text-gray-600"></i>
+                      </button>
+                      <button 
+                          onClick={() => blogSliderRef.current?.scrollBy({left: 380, behavior: 'smooth'})}
+                          className="w-10 h-10 rounded-lg bg-white flex items-center justify-center hover:bg-gray-50 transition-colors shadow-sm cursor-pointer border border-gray-100"
+                      >
+                          <i className="fa-solid fa-chevron-right text-gray-600"></i>
+                      </button>
+                  </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                  {/* Blog Card 1 */}
-                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-                      <div className="w-full h-56 overflow-hidden">
-                          <img src="/assets/images/industrial_mix_bg.png" alt="Blog 1" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+
+              {/* Slider Wrapper with Right Bleed */}
+              <div className="-mr-[50vw] pr-[50vw]">
+                  <div 
+                      id="blog-slider" 
+                      ref={blogSliderRef}
+                      onMouseDown={handleBlogMouseDown}
+                      onMouseLeave={handleBlogMouseLeave}
+                      onMouseUp={handleBlogMouseUp}
+                      onMouseMove={handleBlogMouseMove}
+                      className="flex overflow-x-auto snap-x snap-mandatory gap-6 md:gap-8 pb-8 pr-12 cursor-grab active:cursor-grabbing select-none" 
+                      style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                  >
+                      {/* Blog Card 1 */}
+                      <div className="blog-card group snap-start w-[280px] md:w-[380px] flex-shrink-0">
+                          <div className="blog-image-wrapper">
+                              <img src="/assets/images/industrial_mix_bg.png" alt="Blog 1" />
+                          </div>
+                          <div className="blog-content">
+                              <span className="blog-date">Media</span>
+                              <h3 className="blog-title">All our videos, interviews, podcasts and articles</h3>
+                              <p className="blog-desc">The leading media outlet for everything you need to know about sustainability.</p>
+                              <a href="/blog" className="blog-link flex items-center gap-2 group-hover:text-[#2fa084] transition-colors">
+                                  Read more <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                              </a>
+                          </div>
                       </div>
-                      <div className="p-8">
-                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 24, 2026</span>
-                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>The Future of Smart City Infrastructure</h3>
-                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">Discover how next-generation cabling solutions are powering the smart cities of tomorrow.</p>
-                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
-                              Read Article 
-                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                          </a>
+                      {/* Blog Card 2 */}
+                      <div className="blog-card group snap-start w-[280px] md:w-[380px] flex-shrink-0">
+                          <div className="blog-image-wrapper">
+                              <img src="/assets/images/industrial_cable.png" alt="Blog 2" />
+                          </div>
+                          <div className="blog-content">
+                              <span className="blog-date">Newsletter</span>
+                              <h3 className="blog-title">Become an expert on sustainable development</h3>
+                              <p className="blog-desc">Your monthly update on sustainability and climate. Stay informed with us.</p>
+                              <a href="/blog" className="blog-link flex items-center gap-2 group-hover:text-[#2fa084] transition-colors">
+                                  Read more <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                              </a>
+                          </div>
+                      </div>
+                      {/* Blog Card 3 */}
+                      <div className="blog-card group snap-start w-[280px] md:w-[380px] flex-shrink-0">
+                          <div className="blog-image-wrapper">
+                              <img src="/assets/images/team_working.png" alt="Blog 3" />
+                          </div>
+                          <div className="blog-content">
+                              <span className="blog-date">Event</span>
+                              <h3 className="blog-title">Webinar: The art of communicating on CSR</h3>
+                              <p className="blog-desc">An engaging webinar to strengthen your company's CSR strategy successfully.</p>
+                              <a href="/blog" className="blog-link flex items-center gap-2 group-hover:text-[#2fa084] transition-colors">
+                                  Read more <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                              </a>
+                          </div>
+                      </div>
+                      {/* Blog Card 4 */}
+                      <div className="blog-card group snap-start w-[280px] md:w-[380px] flex-shrink-0">
+                          <div className="blog-image-wrapper">
+                              <img src="/assets/images/repair_service.png" alt="Blog 4" />
+                          </div>
+                          <div className="blog-content">
+                              <span className="blog-date">Resource</span>
+                              <h3 className="blog-title">Guide: LCA, a major asset for businesses</h3>
+                              <p className="blog-desc">Discover our exclusive guide to mastering LCA, from methodology to concrete steps.</p>
+                              <a href="/blog" className="blog-link flex items-center gap-2">
+                                  Read more <i className="fa-solid fa-arrow-right-long"></i>
+                              </a>
+                          </div>
+                      </div>
+                      {/* Fake Card 5 for Slider Peeking */}
+                      <div className="blog-card group snap-start w-[280px] md:w-[380px] flex-shrink-0">
+                          <div className="blog-image-wrapper">
+                              <img src="/assets/images/house_wiring.png" alt="Blog 5" />
+                          </div>
+                          <div className="blog-content">
+                              <span className="blog-date">Resource</span>
+                              <h3 className="blog-title">Behind the Manufacturing: Reducing Emissions</h3>
+                              <p className="blog-desc">A comprehensive look at our commitment to green manufacturing technologies.</p>
+                              <a href="/blog" className="blog-link flex items-center gap-2">
+                                  Read more <i className="fa-solid fa-arrow-right-long"></i>
+                              </a>
+                          </div>
                       </div>
                   </div>
-                  {/* Blog Card 2 */}
-                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-                      <div className="w-full h-56 overflow-hidden">
-                          <img src="/assets/images/industrial_cable.png" alt="Blog 2" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      </div>
-                      <div className="p-8">
-                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 18, 2026</span>
-                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>Sustainable Manufacturing Processes</h3>
-                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">Our commitment to reducing carbon footprints through green manufacturing technologies.</p>
-                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
-                              Read Article 
-                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                          </a>
-                      </div>
-                  </div>
-                  {/* Blog Card 3 */}
-                  <div className="bg-white rounded-2xl overflow-hidden border border-gray-100 hover:shadow-xl transition-all duration-300 group">
-                      <div className="w-full h-56 overflow-hidden">
-                          <img src="/assets/images/team_working.png" alt="Blog 3" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                      </div>
-                      <div className="p-8">
-                          <span className="text-sm font-semibold text-[#2fa084] mb-2 block">May 10, 2026</span>
-                          <h3 className="text-xl font-bold text-[#1f6f5f] mb-4 group-hover:text-[#2fa084] transition-colors" style={{ fontFamily: 'var(--font-heading)' }}>Advancements in High-Voltage Cables</h3>
-                          <p className="text-gray-500 mb-6 text-sm leading-relaxed">How new materials are drastically increasing the efficiency of power transmission.</p>
-                          <a href="#" className="font-bold text-[#1f6f5f] inline-flex items-center group-hover:text-[#2fa084] transition-colors">
-                              Read Article 
-                              <i className="fa-solid fa-arrow-right ml-2 group-hover:translate-x-1 transition-transform"></i>
-                          </a>
-                      </div>
-                  </div>
+              </div>
+
+              {/* Bottom See All Button */}
+              <div className="flex justify-center" style={{ marginTop: '80px' }}>
+                  <a href="/blog" className="btn-uiverse">
+                      <span className="relative z-10 flex items-center gap-2">See all resources <i className="fa-solid fa-arrow-right"></i></span>
+                  </a>
               </div>
           </div>
       </section>
