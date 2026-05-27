@@ -8,12 +8,21 @@ import { productCategories } from '../data/productData';
 gsap.registerPlugin(ScrollTrigger);
 
 const Products = () => {
-  const [activeCategory, setActiveCategory] = useState(productCategories[0]);
+  const [activeCategory, setActiveCategory] = useState(null);
   const [activeProduct, setActiveProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   const handleProductClick = (product) => {
     setActiveProduct(product);
+    setCurrentSlide(0);
+  };
+  
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % 3);
+  };
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev === 0 ? 2 : prev - 1));
   };
   
   const contentRef = useRef(null);
@@ -26,15 +35,45 @@ const Products = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [activeProduct]);
 
-  // General entrance animations
+  // General entrance animations handled by CSS classes (.animate-fade-in-up) now for better reliability
+
+  // Split Heading Animation
   useGSAP(() => {
-    if (!activeProduct && contentRef.current) {
-      gsap.fromTo(
-        '.stagger-card',
-        { opacity: 0, y: 40, scale: 0.95 },
-        { opacity: 1, y: 0, scale: 1, stagger: 0.08, duration: 0.6, ease: "back.out(1.2)", clearProps: 'all' }
-      );
-    }
+    const splitHeadings = document.querySelectorAll('.split-heading');
+    
+    splitHeadings.forEach(heading => {
+        if (heading.dataset.split !== 'true') {
+            heading.dataset.split = 'true';
+            const lines = heading.innerHTML.split(/<br\s*\/?>/i);
+            const wrappedLines = lines.map(line => {
+                const words = line.split(/\s+/);
+                return words.map(word => {
+                    if (word.trim() === '') return '';
+                    return `<span class="word-mask" style="display:inline-block; overflow:hidden; vertical-align:bottom; padding-bottom:5px; margin-bottom:-5px;"><span class="anim-word" style="display:inline-block; opacity:0; transform:translateY(120%);">${word}</span></span>`;
+                }).join('&nbsp;');
+            });
+            heading.innerHTML = wrappedLines.join('<br>');
+        }
+
+        const words = heading.querySelectorAll('.anim-word');
+        if (words.length > 0) {
+            gsap.fromTo(words, 
+              { opacity: 0, y: "120%" },
+              {
+                opacity: 1,
+                y: "0%",
+                stagger: 0.1,
+                ease: "power3.out", 
+                duration: 0.8,
+                scrollTrigger: {
+                    trigger: heading,
+                    start: "top 85%",
+                    toggleActions: "play reverse play reverse"
+                }
+              }
+            );
+        }
+    });
   }, [activeCategory, activeProduct]);
 
   // Sidebar entry animation
@@ -101,7 +140,7 @@ const Products = () => {
         }
       );
     }
-  }, [activeProduct]);
+  }, [activeProduct, activeCategory]);
 
   const handleCategoryClick = (category) => {
     if (activeCategory?.id !== category.id) {
@@ -141,49 +180,80 @@ const Products = () => {
         </button>
       </div>
     );
+    // Build image list for this product (using filters to make them look distinct)
+    const productImages = [
+      { src: product.image, style: {} },
+      { src: product.image, style: { filter: 'hue-rotate(45deg)' } },
+      { src: product.image, style: { filter: 'hue-rotate(-45deg)' } }
+    ];
 
     return (
       <div className="product-details w-full animate-fade-in" ref={detailRef}>
 
-        {/* Section 1: Product Info + Image Gallery Below */}
+        {/* Section 1 (2-col): Left = Image Gallery, Right = Product Info */}
         <div className="product-detail-hero">
-          {/* Product Info */}
-          <div className="detail-hero-text">
-            <div className="inline-flex items-center space-x-2 bg-[#2fa084]/10 text-[#2fa084] px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase mb-6 w-max impact-eyebrow split-subheading">
-              <span className="w-2 h-2 rounded-full bg-[#2fa084] animate-pulse"></span>
-              <span>{activeCategory.name}</span>
+
+          {/* COL 1: Image Slider + Thumbnails */}
+          <div className="product-detail-col-images">
+            {/* Main Image Slider */}
+            <div className="slider-container">
+              <div className="slider-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
+                 {productImages.map((img, idx) => (
+                   <div key={idx} className="slider-slide">
+                     <img src={img.src} alt={`${product.name} view ${idx + 1}`} style={img.style} className="detail-main-img" />
+                   </div>
+                 ))}
+              </div>
+              <button className="slider-btn prev" onClick={prevSlide}>
+                <ArrowLeft size={20} />
+              </button>
+              <button className="slider-btn next" onClick={nextSlide}>
+                <ArrowRight size={20} />
+              </button>
             </div>
-            <h2 className="section-title split-heading text-4xl lg:text-5xl leading-tight mb-6 tracking-tight">
-              {product.name}
-            </h2>
-            <p className="section-description split-desc text-lg leading-relaxed max-w-3xl">
-              {specs.application}
-            </p>
+            {/* Thumbnail Strip / Slider */}
+            <div className="product-detail-thumbs">
+              {productImages.map((img, idx) => (
+                <div
+                  key={idx}
+                  className={`product-thumb${idx === currentSlide ? ' active' : ''}`}
+                  onClick={() => setCurrentSlide(idx)}
+                >
+                  <img src={img.src} alt={product.name + ' view ' + (idx + 1)} style={img.style} />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* Image Gallery - Below the text */}
-          <div className="product-detail-gallery">
-            <div className="product-detail-main-image">
-              <img
-                ref={imageRef}
-                src={product.image}
-                alt={product.name}
-                className="detail-main-img"
-              />
+          {/* COL 2: Product Info */}
+          <div className="product-detail-col-info detail-hero-text">
+            <div className="product-category-badge">
+              <span className="badge-dot"></span>
+              <span>{activeCategory.name}</span>
             </div>
-            {/* Thumbnail strip */}
-            <div className="product-detail-thumbs">
-              <div className="product-thumb active">
-                <img src={product.image} alt={product.name + ' view 1'} />
-              </div>
-              <div className="product-thumb">
-                <img src={product.image} alt={product.name + ' view 2'} />
-              </div>
-              <div className="product-thumb">
-                <img src={product.image} alt={product.name + ' view 3'} />
-              </div>
+            <h2 className="section-title split-heading text-3xl lg:text-4xl leading-tight mb-5 tracking-tight product-detail-title">
+              {product.name}
+            </h2>
+            <div className="product-detail-divider"></div>
+            <p className="section-description split-desc text-base leading-relaxed text-gray-500 mb-6">
+              {specs.application}
+            </p>
+            {/* Quick Specs */}
+            <div className="product-quick-specs">
+              {Object.entries(specs.technicalData).slice(0, 4).map(([key, val]) => (
+                <div key={key} className="product-quick-spec-row">
+                  <span className="spec-key">{key}</span>
+                  <span className="spec-val">{val}</span>
+                </div>
+              ))}
+            </div>
+            {/* Standard Badge */}
+            <div className="product-standard-badge">
+              <ShieldCheck className="w-5 h-5 text-[#2fa084]" />
+              <span>Standard: <strong>{specs.cableStandard}</strong></span>
             </div>
           </div>
+
         </div>
 
         {/* Bento Box Grid */}
@@ -192,21 +262,25 @@ const Products = () => {
            {/* Box 1: Cable Standard */}
            <div className="bento-box bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-blue-50 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700"></div>
-              <ShieldCheck className="w-10 h-10 text-[#3b5998] mb-6 relative z-10" />
-              <h3 className="text-xl font-bold text-[#203a70] mb-3 relative z-10">Cable Standard</h3>
+              <h3 className="bento-heading relative z-10">
+                <ShieldCheck className="w-8 h-8 text-[#3b5998]" />
+                <span className="split-heading">Cable Standard</span>
+              </h3>
               <p className="text-gray-600 font-medium relative z-10">{specs.cableStandard}</p>
            </div>
 
            {/* Box 2: Salient Features */}
            <div className="bento-box bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group row-span-2">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-50 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700"></div>
-              <Settings2 className="w-10 h-10 text-[#2fa084] mb-6 relative z-10" />
-              <h3 className="text-xl font-bold text-[#203a70] mb-5 relative z-10">Salient Features</h3>
-              <ul className="space-y-4 relative z-10">
+              <h3 className="bento-heading relative z-10">
+                <Settings2 className="w-8 h-8 text-[#2fa084]" />
+                <span className="split-heading">Salient Features</span>
+              </h3>
+              <ul className="feature-list relative z-10">
                  {specs.salientFeatures.map((feature, idx) => (
-                   <li key={idx} className="flex items-start">
-                      <CheckCircle2 className="w-5 h-5 text-[#2fa084] mr-3 shrink-0 mt-0.5" />
-                      <span className="text-gray-600 leading-relaxed">{feature}</span>
+                   <li key={idx} className="feature-list-item">
+                      <CheckCircle2 className="feature-icon" />
+                      <span className="feature-text">{feature}</span>
                    </li>
                  ))}
               </ul>
@@ -215,8 +289,10 @@ const Products = () => {
            {/* Box 3: Technical Data */}
            <div className="bento-box bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group row-span-2">
               <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700"></div>
-              <Zap className="w-10 h-10 text-[#6b46c1] mb-6 relative z-10" />
-              <h3 className="text-xl font-bold text-[#203a70] mb-5 relative z-10">Technical Data</h3>
+              <h3 className="bento-heading relative z-10">
+                <Zap className="w-8 h-8 text-[#6b46c1]" />
+                <span className="split-heading">Technical Data</span>
+              </h3>
               <div className="space-y-4 relative z-10">
                 {Object.entries(specs.technicalData).map(([key, val]) => (
                   <div key={key} className="flex flex-col border-b border-gray-50 pb-3 last:border-0 last:pb-0">
@@ -230,8 +306,10 @@ const Products = () => {
            {/* Box 4: Standard Packing */}
            <div className="bento-box bg-white p-8 rounded-3xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-32 h-32 bg-orange-50 rounded-full blur-3xl -mr-10 -mt-10 transition-transform group-hover:scale-150 duration-700"></div>
-              <Package className="w-10 h-10 text-[#ed8936] mb-6 relative z-10" />
-              <h3 className="text-xl font-bold text-[#203a70] mb-4 relative z-10">Standard Packing</h3>
+              <h3 className="bento-heading relative z-10">
+                <Package className="w-8 h-8 text-[#ed8936]" />
+                <span className="split-heading">Standard Packing</span>
+              </h3>
               <div className="space-y-3 relative z-10">
                 {Object.entries(specs.standardPacking).map(([key, val]) => (
                   <p key={key} className="text-sm text-gray-600">
@@ -244,14 +322,14 @@ const Products = () => {
            {/* Box 5: Core Colour (Spans full width on tablet/desktop) */}
            <div className="bento-box md:col-span-2 lg:col-span-3 bg-gradient-to-r from-[#203a70] to-[#2a4d94] p-8 rounded-3xl shadow-lg relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-              <div className="flex flex-col md:flex-row items-center md:items-start gap-6 relative z-10">
-                 <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center shrink-0 backdrop-blur-md border border-white/20">
-                    <Palette className="w-8 h-8 text-white" />
-                 </div>
-                 <div>
-                    <h3 className="text-xl font-bold text-white mb-2">Core Colour Coding</h3>
-                    <p className="text-blue-100 leading-relaxed max-w-4xl">{specs.coreColour}</p>
-                 </div>
+              <div className="relative z-10">
+                 <h3 className="bento-heading white-text">
+                    <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0 backdrop-blur-md border border-white/20">
+                       <Palette className="w-6 h-6 text-white" />
+                    </div>
+                    <span className="split-heading">Core Colour Coding</span>
+                 </h3>
+                 <p className="text-blue-100 leading-relaxed max-w-4xl">{specs.coreColour}</p>
               </div>
            </div>
         </div>
@@ -259,9 +337,9 @@ const Products = () => {
         {/* Technical Data Table */}
         {specs.tableData && specs.tableData.length > 0 && (
           <div className="spec-table w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-12">
-             <h3 className="text-2xl font-bold text-[#203a70] mb-8 flex items-center">
-                <span className="w-2 h-8 bg-[#2fa084] rounded-full mr-4 inline-block"></span>
-                Complete Specification Data
+             <h3 className="section-primary-heading relative z-10">
+                <span className="accent-pill"></span>
+                <span className="split-heading">Complete Specification Data</span>
              </h3>
              <div className="overflow-x-auto">
                 <table className="w-full text-sm text-left border-collapse min-w-[1000px]">
@@ -304,6 +382,42 @@ const Products = () => {
              </div>
           </div>
         )}
+
+        {/* Related Products Section */}
+        {activeCategory && activeCategory.subCategories && activeCategory.subCategories.length > 1 && (
+          <div className="related-products-section">
+             <h3 className="section-primary-heading">
+                <span className="accent-pill"></span>
+                <span className="split-heading">Related Products</span>
+             </h3>
+             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 product-grid-wrapper">
+               {activeCategory.subCategories
+                 .filter(item => item.id !== product.id)
+                 .slice(0, 3)
+                 .map((item) => (
+                   <div 
+                     key={item.id} 
+                     onClick={() => handleProductClick(item)}
+                     className="group cursor-pointer flex flex-col items-start text-left transition-all duration-300"
+                   >
+                     <div 
+                       className="rounded-2xl overflow-hidden relative transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl w-full mb-5 border border-gray-100" 
+                       style={{ backgroundColor: '#EFEFEF', padding: '24px' }}
+                     >
+                        <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="transition-transform duration-500 group-hover:scale-105"
+                          style={{ width: '85%', margin: '0 auto', height: '200px', objectFit: 'contain', mixBlendMode: 'multiply', display: 'block' }}
+                        />
+                        <div className="absolute bottom-0 left-0 w-full pointer-events-none" style={{ height: '60px', background: 'linear-gradient(to bottom, rgba(239,239,239,0) 0%, rgba(239,239,239,1) 100%)' }}></div>
+                     </div>
+                     <h3 className="product-card-title !mt-2">{item.name}</h3>
+                   </div>
+               ))}
+             </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -311,42 +425,43 @@ const Products = () => {
   return (
     <div className="min-h-screen bg-white pt-24 pb-20">
       {/* Dynamic Breadcrumb Section */}
-      <div className="bg-[#f5f5f5] h-[20vh] min-h-[160px] mb-16 relative flex flex-col items-center justify-center text-center">
-        <div className="container mx-auto relative z-10 flex flex-col items-center justify-center">
-           <h1 className="text-3xl md:text-4xl font-bold text-[#203a70] mb-3 tracking-wide">
+      <div className="breadcrumb-hero">
+         <h1 className="breadcrumb-title">
+           <span key={activeProduct ? activeProduct.id : activeCategory ? activeCategory.id : 'products'} className="split-heading">
              {activeProduct ? activeProduct.name : activeCategory ? activeCategory.name : 'Products'}
-           </h1>
-           {/* Breadcrumb */}
-           <div className="flex items-center space-x-3 text-sm text-gray-500 font-medium tracking-widest uppercase">
-              <a href="/" className="hover:text-[#2fa084] transition-colors">Home</a>
-              <span className="opacity-50 text-gray-400">/</span>
-              
-              {!activeCategory && !activeProduct ? (
-                <span className="text-[#203a70] font-bold">Products</span>
-              ) : (
-                <>
-                  <a href="#" onClick={(e) => { e.preventDefault(); setActiveCategory(null); setActiveProduct(null); }} className="hover:text-[#2fa084] transition-colors">Products</a>
-                  <span className="opacity-50 text-gray-400">/</span>
-                  
-                  {!activeProduct || !activeCategory ? (
-                    <span className="text-[#203a70] font-bold">{activeCategory?.name}</span>
-                  ) : (
-                    <>
-                      {(!activeCategory.subCategories || activeCategory.subCategories.length === 0) ? (
-                        <span className="text-[#203a70] font-bold">{activeProduct.name}</span>
-                      ) : (
-                        <>
-                          <a href="#" onClick={(e) => { e.preventDefault(); setActiveProduct(null); }} className="hover:text-[#2fa084] transition-colors">{activeCategory.name}</a>
-                          <span className="opacity-50 text-gray-400">/</span>
-                          <span className="text-[#203a70] font-bold">{activeProduct.name}</span>
-                        </>
-                      )}
-                    </>
-                  )}
-                </>
-              )}
-           </div>
-        </div>
+           </span>
+         </h1>
+         
+         {/* Breadcrumb Navigation */}
+         <div className="breadcrumb-nav">
+            <a href="/">Home</a>
+            <span className="separator">/</span>
+            
+            {!activeCategory && !activeProduct ? (
+              <span className="active-crumb">Products</span>
+            ) : (
+              <>
+                <a href="#" onClick={(e) => { e.preventDefault(); setActiveCategory(null); setActiveProduct(null); }}>Products</a>
+                <span className="separator">/</span>
+                
+                {!activeProduct || !activeCategory ? (
+                  <span className="active-crumb">{activeCategory?.name}</span>
+                ) : (
+                  <>
+                    {(!activeCategory.subCategories || activeCategory.subCategories.length === 0) ? (
+                      <span className="active-crumb">{activeProduct.name}</span>
+                    ) : (
+                      <>
+                        <a href="#" onClick={(e) => { e.preventDefault(); setActiveProduct(null); }}>{activeCategory.name}</a>
+                        <span className="separator">/</span>
+                        <span className="active-crumb">{activeProduct.name}</span>
+                      </>
+                    )}
+                  </>
+                )}
+              </>
+            )}
+         </div>
       </div>
 
       {/* Main Layout Container */}
@@ -363,7 +478,7 @@ const Products = () => {
             <div>
               <div className="products-header-section flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-100 pb-6 gap-6">
                  <div>
-                    <h2 className="all-products-title section-title split-heading text-3xl lg:text-4xl mb-0 !text-[#203a70]">
+                    <h2 key={activeCategory ? activeCategory.id : 'all'} className="all-products-title section-title split-heading text-3xl lg:text-4xl mb-0 !text-[#203a70]">
                       {activeCategory ? activeCategory.name : 'All Products'}
                     </h2>
                  </div>
@@ -411,12 +526,13 @@ const Products = () => {
                 }
                 
                 return (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12 product-grid-wrapper">
                     {items.map((item, idx) => (
                       <div 
                         key={item.id} 
                         onClick={() => activeCategory ? handleProductClick(item) : handleCategoryClick(item)}
-                        className="stagger-card group cursor-pointer flex flex-col items-start text-left"
+                        className="stagger-card group cursor-pointer flex flex-col items-start text-left animate-fade-in-up opacity-0"
+                        style={{ animationDelay: `${idx * 0.1}s`, animationFillMode: 'forwards' }}
                       >
                         {/* Gray Image Box — premium card layout */}
                         <div 

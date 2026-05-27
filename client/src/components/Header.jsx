@@ -134,9 +134,9 @@ const Header = () => {
                             </div>
                         </li>
                     <li className="has-mega-menu">
-                        <Link to="/products" className="nav-link">Services <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i></Link>
+                        <Link to="#" className="nav-link">Services <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i></Link>
                     </li>
-                    <li><Link to="/blog" className="nav-link">News</Link></li>
+                    <li><Link to="/blog" className="nav-link">Blog & News</Link></li>
                     <li><Link to="/about" className="nav-link">About Us</Link></li>
                     <li><Link to="/contact" className="nav-link">Contact Us</Link></li>
                 </ul>
