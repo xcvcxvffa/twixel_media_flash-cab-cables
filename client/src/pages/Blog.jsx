@@ -67,7 +67,7 @@ const Blog = () => {
         observer.unobserve(loaderRef.current);
       }
     };
-  }, [hasMore, loading, page, searchQuery, activeCategory]);
+  }, [hasMore, loading, page, searchQuery]);
 
   // Split Heading Animation (same as Products page)
   useGSAP(() => {
