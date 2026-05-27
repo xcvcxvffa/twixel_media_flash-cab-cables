@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { blogPosts } from '../data/blogData';
 
 const Blog = () => {
