@@ -7,21 +7,53 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef(null);
   const logoRef = useRef(null);
+  const lastScrollY = useRef(0);
+  const headerHidden = useRef(false);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
+      const currentScrollY = window.scrollY;
+      
+      // Set scrolled state for shadow/bg
+      if (currentScrollY > 50) {
         setIsScrolled(true);
       } else {
         setIsScrolled(false);
       }
+
+      // Smart sticky: hide on scroll down, show on scroll up
+      if (!headerRef.current) return;
+
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        // Scrolling DOWN - hide the header
+        if (!headerHidden.current) {
+          headerHidden.current = true;
+          gsap.to(headerRef.current, {
+            y: '-100%',
+            duration: 0.35,
+            ease: 'power2.inOut'
+          });
+        }
+      } else {
+        // Scrolling UP - show the header
+        if (headerHidden.current) {
+          headerHidden.current = false;
+          gsap.to(headerRef.current, {
+            y: '0%',
+            duration: 0.35,
+            ease: 'power2.out'
+          });
+        }
+      }
+
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // GSAP Header Scroll Animation
+  // GSAP Header style update (shadow/bg) when scrolled
   useEffect(() => {
       if (!headerRef.current) return;
       if (isScrolled) {
@@ -33,7 +65,7 @@ const Header = () => {
               ease: "power2.out"
           });
           gsap.to(logoRef.current, {
-              height: '55px', // Shrink logo container
+              height: '55px',
               duration: 0.4,
               ease: "power2.out"
           });
@@ -46,7 +78,7 @@ const Header = () => {
               ease: "power2.out"
           });
           gsap.to(logoRef.current, {
-              height: '80px', // Original logo container height
+              height: '80px',
               duration: 0.4,
               ease: "power2.out"
           });
@@ -134,7 +166,7 @@ const Header = () => {
                             </div>
                         </li>
                     <li className="has-mega-menu">
-                        <Link to="#" className="nav-link">Services <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i></Link>
+                        <Link to="/services" className="nav-link">Services <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i></Link>
                     </li>
                     <li><Link to="/blog" className="nav-link">Blog & News</Link></li>
                     <li><Link to="/about" className="nav-link">About Us</Link></li>

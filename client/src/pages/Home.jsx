@@ -120,8 +120,8 @@ const Home = () => {
         }
     }
 
-    // 1. Exact Global Heading Animation for ALL headings on the page
-    const globalHeadings = document.querySelectorAll('h1:not(.hero-animate h1), h2:not(.hero-animate h2), h3, h4, h5, h6, .split-heading, .split-subheading, .about-box-heading');
+    // 1. Exact Global Heading Animation for ALL headings on the page (excluding footer)
+    const globalHeadings = document.querySelectorAll('main h1:not(.hero-animate h1), main h2:not(.hero-animate h2), main h3, main h4, main h5, main h6, .split-heading, .split-subheading, .about-box-heading');
     
     globalHeadings.forEach(heading => {
         if (heading.dataset.split !== 'true') {
@@ -264,7 +264,7 @@ const Home = () => {
     });
 
     // 4. Fade Up Reveal for Cards/Content
-    gsap.from('.gsap-reveal, .gsap-stagger-text h4, .gsap-stagger-text h5, .product-band-item', {
+    gsap.from('main .gsap-reveal, main .gsap-stagger-text h4, main .gsap-stagger-text h5, .product-band-item', {
       y: 60,
       opacity: 0,
       duration: 1,

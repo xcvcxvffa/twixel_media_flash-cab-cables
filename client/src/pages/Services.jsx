@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Construction, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Wrench, ArrowRight } from 'lucide-react';
 
-const About = () => {
+const Services = () => {
   return (
     <div className="coming-soon-page">
       <div className="coming-soon-container">
         {/* Animated Icon */}
         <div className="coming-soon-icon-wrapper">
-          <Construction size={48} strokeWidth={1.5} />
+          <Wrench size={48} strokeWidth={1.5} />
         </div>
 
         {/* Main Heading */}
@@ -18,7 +18,7 @@ const About = () => {
 
         {/* Subtitle */}
         <p className="coming-soon-subtitle">
-          We're crafting something amazing for you. Our <strong>About Us</strong> page is currently under construction and will be available shortly.
+          We're crafting something amazing for you. Our <strong>Services</strong> page is currently under construction and will be available shortly.
         </p>
 
         {/* Decorative Divider */}
@@ -45,4 +45,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default Services;
