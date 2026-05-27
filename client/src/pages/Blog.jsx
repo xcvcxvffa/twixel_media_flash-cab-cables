@@ -10,6 +10,7 @@ const Blog = () => {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [activeCategory, setActiveCategory] = useState('All');
   
   const POSTS_PER_PAGE = 6;
   const loaderRef = useRef(null);
