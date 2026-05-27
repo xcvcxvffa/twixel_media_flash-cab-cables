@@ -3,7 +3,7 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useInView } from 'framer-motion';
-import { Zap, Star, Globe, ArrowRight } from 'lucide-react';
+import { Zap, Star, Globe, ArrowRight, ShieldCheck, Leaf, Cpu } from 'lucide-react';
 import ProductUsage from '../components/ProductUsage';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -428,7 +428,7 @@ const Home = () => {
                           Engineering the Next Era of Connectivity
                       </h2>
                       <p style={{ fontSize: '18px', color: 'var(--text-light)', lineHeight: 1.8, marginBottom: '40px', fontFamily: 'var(--font-body)' }}>
-                          For over two decades, Flash Cab Cables has been at the forefront of manufacturing advanced electrical and optical solutions, driven by an unwavering commitment to quality and innovation.
+                          For over 18 years, Flash Cab Cables has been at the forefront of manufacturing advanced electrical and optical solutions, driven by an unwavering commitment to quality and innovation.
                       </p>
                       
                       {/* Premium Bento Stats Grid */}
@@ -437,7 +437,7 @@ const Home = () => {
                               <div className="bento-stat-icon">
                                   <i className="fa-regular fa-calendar-check"></i>
                               </div>
-                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>25+</div>
+                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>18+</div>
                               <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>Years of Excellence</div>
                           </div>
                           
@@ -445,16 +445,16 @@ const Home = () => {
                               <div className="bento-stat-icon">
                                   <i className="fa-solid fa-globe"></i>
                               </div>
-                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>15K+</div>
-                              <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>Projects Delivered</div>
+                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>500+</div>
+                              <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>Km Cable Supplied</div>
                           </div>
                           
                           <div className="bento-stat-card">
                               <div className="bento-stat-icon">
                                   <i className="fa-solid fa-map-location-dot"></i>
                               </div>
-                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>40+</div>
-                              <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>Countries Served</div>
+                              <div style={{ fontSize: '42px', fontWeight: 800, color: 'var(--secondary-color)', fontFamily: 'var(--font-heading)', lineHeight: 1, marginBottom: '8px' }}>20+</div>
+                              <div style={{ fontSize: '13px', fontWeight: 600, color: 'var(--text-light)', textTransform: 'uppercase', letterSpacing: '1px' }}>States Available In</div>
                           </div>
                       </div>
                       
@@ -865,7 +865,7 @@ const Home = () => {
                                }
                            }}>
                           
-                          {/* Card 1: Cable Supplied */}
+                          {/* Card 1: Unmatched Quality */}
                           <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
                               <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
                                    style={{ 
@@ -878,30 +878,22 @@ const Home = () => {
                                    }}>
                               </div>
                               <div className="flex justify-between items-start w-full gap-4 relative z-10">
-                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
-                                      Km of extra-high voltage & optical cables supplied nationwide.
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[220px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Stringent end-to-end testing ensuring unmatched reliability for critical infrastructure.
                                   </p>
                                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                                      {/* Animated Bolt Icon */}
+                                      {/* Animated Icon */}
                                       <motion.div animate={{ rotate: [0, 10, -10, 0], scale: [1, 1.1, 1] }} transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}>
-                                          <Zap size={24} color="#2fa084" />
+                                          <ShieldCheck size={24} color="#2fa084" />
                                       </motion.div>
                                   </div>
                               </div>
-                              <div className="flex items-center justify-start w-full mt-4">
-                                  <AnimatedNumber target={500} />
-                                  <span className="text-2xl md:text-3xl font-bold text-[#2fa084] ml-1">Km</span>
-                                  {/* Green Upward Arrow */}
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
-                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                      <path d="M12 5l0 14" />
-                                      <path d="M18 11l-6 -6" />
-                                      <path d="M6 11l6 -6" />
-                                  </svg>
+                              <div className="flex items-center justify-start w-full mt-8">
+                                  <h3 className="text-2xl md:text-3xl font-bold text-white">Unmatched Quality</h3>
                               </div>
                           </div>
 
-                          {/* Card 2: Industry Experience */}
+                          {/* Card 2: Eco-Conscious */}
                           <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
                               <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
                                    style={{ 
@@ -914,30 +906,22 @@ const Home = () => {
                                    }}>
                               </div>
                               <div className="flex justify-between items-start w-full gap-4 relative z-10">
-                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
-                                      Years of unmatched heritage & innovative engineering experience.
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[220px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Pioneering sustainable practices with a steadfast zero waste to landfill commitment.
                                   </p>
                                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                                      {/* Animated Star Icon */}
+                                      {/* Animated Icon */}
                                       <motion.div animate={{ rotate: [0, 15, 0], scale: [1, 1.15, 1] }} transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}>
-                                          <Star size={24} color="#fcb900" />
+                                          <Leaf size={24} color="#fcb900" />
                                       </motion.div>
                                   </div>
                               </div>
-                              <div className="flex items-center justify-start w-full mt-4">
-                                  <AnimatedNumber target={18} />
-                                  <span className="text-2xl md:text-3xl font-bold text-[#fcb900] ml-1">Yrs</span>
-                                  {/* Green Upward Arrow */}
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
-                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                      <path d="M12 5l0 14" />
-                                      <path d="M18 11l-6 -6" />
-                                      <path d="M6 11l6 -6" />
-                                  </svg>
+                              <div className="flex items-center justify-start w-full mt-8">
+                                  <h3 className="text-2xl md:text-3xl font-bold text-white">Eco-Conscious</h3>
                               </div>
                           </div>
 
-                          {/* Card 3: States Available In */}
+                          {/* Card 3: Next-Gen Engineering */}
                           <div className="impact-card spotlight-card relative w-full rounded-[2rem] bg-white/5 border border-white/10 transition-all duration-500 ease-out hover:-translate-y-2 hover:bg-[#080808] hover:border-transparent group flex flex-col justify-between items-start" style={{ "--mouse-x": "50%", "--mouse-y": "50%" }}>
                               <div className="absolute inset-0 rounded-[2rem] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none z-0" 
                                    style={{ 
@@ -950,26 +934,18 @@ const Home = () => {
                                    }}>
                               </div>
                               <div className="flex justify-between items-start w-full gap-4 relative z-10">
-                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[200px]" style={{ fontFamily: 'var(--font-body)' }}>
-                                      Major Indian states & active industrial territories served.
+                                  <p className="text-gray-300 font-medium text-base text-left leading-relaxed max-w-[220px]" style={{ fontFamily: 'var(--font-body)' }}>
+                                      Developing advanced ACCC technology and smart cables for modern power grids.
                                   </p>
                                   <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
-                                      {/* Animated Globe Icon */}
-                                      <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 8, ease: "linear" }}>
-                                          <Globe size={24} color="#0073c0" />
+                                      {/* Animated Icon */}
+                                      <motion.div animate={{ rotate: [0, 5, -5, 0] }} transition={{ repeat: Infinity, duration: 4, ease: "linear" }}>
+                                          <Cpu size={24} color="#0073c0" />
                                       </motion.div>
                                   </div>
                               </div>
-                              <div className="flex items-center justify-start w-full mt-4">
-                                  <AnimatedNumber target={20} />
-                                  <span className="text-2xl md:text-3xl font-bold text-[#0073c0] ml-1">States</span>
-                                  {/* Green Upward Arrow */}
-                                  <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#2fa084" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="inline-block ml-3 self-center transition-transform duration-300 group-hover:-translate-y-1">
-                                      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                                      <path d="M12 5l0 14" />
-                                      <path d="M18 11l-6 -6" />
-                                      <path d="M6 11l6 -6" />
-                                  </svg>
+                              <div className="flex items-center justify-start w-full mt-8">
+                                  <h3 className="text-2xl md:text-3xl font-bold text-white">Next-Gen Engineering</h3>
                               </div>
                           </div>
 
