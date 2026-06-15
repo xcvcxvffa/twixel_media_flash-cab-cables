@@ -140,38 +140,14 @@ const Header = () => {
                         <li className="mobile-menu-header">
                             <i className="fa-solid fa-xmark mobile-close" onClick={() => setIsMobileMenuOpen(false)}></i>
                         </li>
-                        <li className={`has-mega-menu ${activeMegaMenu === 'products' ? 'active' : ''}`}>
-                            <Link to="/products" className="nav-link" onClick={(e) => toggleMegaMenu(e, 'products')}>
-                                Products <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i>
-                            </Link>
-                            <div className="mega-menu" ref={megaMenuRef} style={window.innerWidth <= 991 ? { overflow: 'hidden', display: 'none' } : {}}>
-                                <div className="mega-menu-column">
-                                    <h4 className="mega-menu-title">Cables</h4>
-                                    <Link to="/products" className="mega-menu-card">
-                                        <img src="/assets/images/cables.png" alt="Cables" />
-                                    </Link>
-                                </div>
-                                <div className="mega-menu-column">
-                                    <h4 className="mega-menu-title">Conductors</h4>
-                                    <Link to="/products" className="mega-menu-card">
-                                        <img src="/assets/images/conductors.png" alt="Conductors" />
-                                    </Link>
-                                </div>
-                                <div className="mega-menu-column">
-                                    <h4 className="mega-menu-title">OPGW</h4>
-                                    <Link to="/products" className="mega-menu-card">
-                                        <img src="/assets/images/opgw.png" alt="OPGW" />
-                                    </Link>
-                                </div>
-                            </div>
-                        </li>
-                    <li className="has-mega-menu">
-                        <Link to="/services" className="nav-link">Services <i className="fa-solid fa-chevron-down" style={{ fontSize: '10px', marginLeft: '4px', color: '#737373' }}></i></Link>
-                    </li>
-                    <li><Link to="/blog" className="nav-link">Blog & News</Link></li>
-                    <li><Link to="/about" className="nav-link">About Us</Link></li>
-                    <li><Link to="/contact" className="nav-link">Contact Us</Link></li>
-                </ul>
+                        <li><Link to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Home</Link></li>
+                        <li><Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link></li>
+                        <li><Link to="/cable" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Cable</Link></li>
+                        {/* <li><a href="/#conductors" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Conductors</a></li> */}
+                        <li><Link to="/services" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>EPC</Link></li>
+                        {/* <li><Link to="/blog" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Blog & News</Link></li> */}
+                        <li><Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link></li>
+                    </ul>
             </nav>
             
             <div className="mobile-toggle" style={{ opacity: isMobileMenuOpen ? 0 : 1, pointerEvents: isMobileMenuOpen ? 'none' : 'auto', transition: 'opacity 0.2s' }} onClick={() => setIsMobileMenuOpen(true)}>

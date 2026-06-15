@@ -18,7 +18,7 @@ const Services = () => {
 
         {/* Subtitle */}
         <p className="coming-soon-subtitle">
-          We're crafting something amazing for you. Our <strong>Services</strong> page is currently under construction and will be available shortly.
+          We're crafting something amazing for you. Our <strong>EPC</strong> page is currently under construction and will be available shortly.
         </p>
 
         {/* Decorative Divider */}

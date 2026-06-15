@@ -31,8 +31,8 @@ const Footer = () => {
              <div className="footer-quick-links">
                  <Link to="/" className="footer-qlink">Home</Link>
                  <Link to="/about" className="footer-qlink">About Us</Link>
-                 <Link to="/services" className="footer-qlink">Services</Link>
-                 <Link to="/blog" className="footer-qlink">News</Link>
+                 <Link to="/services" className="footer-qlink">EPC</Link>
+                 {/* <Link to="/blog" className="footer-qlink">News</Link> */}
                  <Link to="/contact" className="footer-qlink">Contact Us</Link>
              </div>
           </div>
@@ -41,9 +41,8 @@ const Footer = () => {
           <div className="footer-col-links">
              <h4 className="footer-heading">Our Products</h4>
              <div className="footer-quick-links">
-                 <Link to="/products" className="footer-qlink">Cables</Link>
-                 <Link to="/products" className="footer-qlink">Conductors</Link>
-                 <Link to="/products" className="footer-qlink">OPGW</Link>
+                 <Link to="/cable" className="footer-qlink">Cables</Link>
+                 {/* <a href="/#conductors" className="footer-qlink">Conductors</a> */}
              </div>
           </div>
 

@@ -1,13 +1,76 @@
 export const productCategories = [
   {
-    id: 'submersible-pump-cables',
-    name: 'Submersible Pump Cables',
+    id: '11kv-ht-cable',
+    name: '11 kv HT cable ( 66 kv / 33 kv )',
+    image: '/assets/images/ht_cable_diagram.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: [],
+    specs: {
+      cableStandard: 'IS 7098 (Part 2) / IEC 60502-2',
+      salientFeatures: [
+        'XLPE (Cross Linked Polyethylene) Insulation',
+        'Galvanized Steel Wire / Steel Strip Armour',
+        'Stranded Class 2 Aluminium / Copper Conductor',
+        'By Color Coding Core Identification',
+        'Suitable for Indoor, Outdoor, Underground & Duct Installation',
+        'Short Circuit Temperature up to 250°C'
+      ],
+      technicalData: {
+        'Voltage Grade': '11 KV',
+        'Operating Temp': '-15°C to +90°C',
+        'Short Circuit Temp': 'Up to 250°C',
+        'Installation': 'Indoor, Outdoor, Underground & Duct'
+      },
+      standardPacking: {
+        'Conductor': 'Aluminium / Copper (Class 2 Stranded)',
+        'Insulation': 'XLPE (Cross Linked Polyethylene)',
+        'Armour': 'Galvanized Steel Wire / Steel Strip Armour',
+        'Core Identification': 'By Color Coding'
+      },
+      coreColour: 'By Color Coding (Red, Yellow, Blue for 3 Core, or as per standard specifications).',
+      application: '11 KV HT Cable is engineered for reliable high-voltage power transmission across industrial, commercial, and infrastructure applications. With advanced XLPE insulation and robust construction, it ensures maximum safety, minimal power loss, and consistent performance over long distances. Suitable for: Industrial Plants, Infrastructure Projects, Renewable & Commercial Installations, Power Distribution.',
+      tableData: [
+        { size: '3C x 35', wires: 'Stranded', insThick: '3.40', coreOD: '18.5', sheathThick: '1.80', over3Core: '45.0', over4Core: 'N/A', res: '0.868', rating: '110' },
+        { size: '3C x 50', wires: 'Stranded', insThick: '3.40', coreOD: '19.8', sheathThick: '1.80', over3Core: '48.2', over4Core: 'N/A', res: '0.641', rating: '130' },
+        { size: '3C x 70', wires: 'Stranded', insThick: '3.40', coreOD: '21.6', sheathThick: '2.0', over3Core: '52.5', over4Core: 'N/A', res: '0.443', rating: '160' },
+        { size: '3C x 95', wires: 'Stranded', insThick: '3.40', coreOD: '23.8', sheathThick: '2.0', over3Core: '57.8', over4Core: 'N/A', res: '0.320', rating: '190' },
+        { size: '3C x 120', wires: 'Stranded', insThick: '3.40', coreOD: '25.4', sheathThick: '2.20', over3Core: '61.5', over4Core: 'N/A', res: '0.253', rating: '220' },
+        { size: '3C x 150', wires: 'Stranded', insThick: '3.40', coreOD: '27.0', sheathThick: '2.20', over3Core: '65.2', over4Core: 'N/A', res: '0.206', rating: '250' }
+      ]
+    }
+  },
+  {
+    id: '11kv-medium-voltage-cable',
+    name: '11 Kv Medium Voltage cable',
     image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  },
+  {
+    id: 'single-multi-flexible-cables',
+    name: 'Single Core & Multi Core Flexible Cables',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/house_wiring.png',
+    subCategories: []
+  },
+  {
+    id: 'industrial-power-control-cables',
+    name: 'Industrial Power & Control Cables',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  },
+  {
+    id: 'submersible-flat-cables',
+    name: 'Submersible Flat Cables',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/house_wiring.png',
     subCategories: [
       {
         id: '3-core-pvc-flat',
         name: '3 Core PVC Flat Cable',
         image: '/assets/images/cables.png',
+        image2: '/assets/images/house_wiring.png',
         specs: {
           cableStandard: 'IS 694:2010, BS 6500, IEC 60227',
           salientFeatures: [
@@ -40,25 +103,58 @@ export const productCategories = [
           ]
         }
       },
-      { id: '4-core-pvc-flat', name: '4 Core PVC Flat Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '3-core-rubber-flat', name: '3 Core Rubber Flat Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '4-core-rubber-flat', name: '4 Core Rubber Flat Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '3-core-pvc-round', name: '3 Core PVC Round Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '4-core-pvc-round', name: '4 Core PVC Round Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '3-core-rubber-round', name: '3 Core Rubber Round Cable', image: '/assets/images/cables.png', specs: null },
-      { id: '4-core-rubber-round', name: '4 Core Rubber Round Cable', image: '/assets/images/cables.png', specs: null },
+      { id: '4-core-pvc-flat', name: '4 Core PVC Flat Cable', image: '/assets/images/cables.png', image2: '/assets/images/house_wiring.png', specs: null },
+      { id: '3-core-rubber-flat', name: '3 Core Rubber Flat Cable', image: '/assets/images/cables.png', image2: '/assets/images/house_wiring.png', specs: null },
+      { id: '4-core-rubber-flat', name: '4 Core Rubber Flat Cable', image: '/assets/images/cables.png', image2: '/assets/images/house_wiring.png', specs: null }
     ]
   },
-  { id: 'building-wire', name: 'Building Wire', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'fire-survival', name: 'Fire Survival Cable', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'twin-earth', name: 'Twin Cable With Earth', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'single-core', name: 'Single Core Wires', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'round-flexible', name: 'Round Flexible Cables', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'welding-cables', name: 'Welding Cables', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'auto-cables', name: 'Auto Cables', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'battery-cables', name: 'Battery Cables', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'instrumentation', name: 'Instrumentation Cable', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'harmonize', name: 'Harmonize Cable', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'solar-cables', name: 'Solar Cables', image: '/assets/images/cables.png', subCategories: [] },
-  { id: 'armoured', name: 'Armoured Cables', image: '/assets/images/cables.png', subCategories: [] }
+  {
+    id: 'ariel-bunched-cables',
+    name: 'Ariel Bunched Cables',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  },
+  {
+    id: 'house-wires',
+    name: 'House Wires',
+    image: '/assets/images/house_wiring.png',
+    image2: '/assets/images/cables.png',
+    subCategories: []
+  },
+  {
+    id: 'dc-solar-cable',
+    name: 'DC Solar cable - (singal core)',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  },
+  {
+    id: 'round-flexible-cable',
+    name: 'Round flexible cable',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/house_wiring.png',
+    subCategories: []
+  },
+  {
+    id: 'welding-cable',
+    name: 'Welding cable',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  },
+  {
+    id: 'auto-cable',
+    name: 'auto cable',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/house_wiring.png',
+    subCategories: []
+  },
+  {
+    id: 'battery-cable',
+    name: 'Battery cable',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
+    subCategories: []
+  }
 ];

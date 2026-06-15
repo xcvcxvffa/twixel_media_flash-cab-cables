@@ -96,21 +96,9 @@ const Products = () => {
         { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }
       );
       
-      // Floating Image Animation
-      if (imageRef.current) {
-        gsap.fromTo(imageRef.current, 
-          { opacity: 0, scale: 0.8, rotation: -5 }, 
-          { opacity: 1, scale: 1, rotation: 0, duration: 1, ease: "elastic.out(1, 0.7)" }
-        );
-        gsap.to(imageRef.current, {
-          y: -15,
-          duration: 2,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-      }
-
+      
+      // Image animations removed as requested
+      
       // Bento Boxes Stagger
       gsap.fromTo('.bento-box',
         { opacity: 0, y: 30 },
@@ -190,73 +178,37 @@ const Products = () => {
     return (
       <div className="product-details w-full animate-fade-in" ref={detailRef}>
 
-        {/* Section 1 (2-col): Left = Image Gallery, Right = Product Info */}
-        <div className="product-detail-hero">
-
-          {/* COL 1: Image Slider + Thumbnails */}
-          <div className="product-detail-col-images">
-            {/* Main Image Slider */}
-            <div className="slider-container">
-              <div className="slider-track" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
-                 {productImages.map((img, idx) => (
-                   <div key={idx} className="slider-slide">
-                     <img src={img.src} alt={`${product.name} view ${idx + 1}`} style={img.style} className="detail-main-img" />
-                   </div>
-                 ))}
-              </div>
-              <button className="slider-btn prev" onClick={prevSlide}>
-                <ArrowLeft size={20} />
-              </button>
-              <button className="slider-btn next" onClick={nextSlide}>
-                <ArrowRight size={20} />
-              </button>
-            </div>
-            {/* Thumbnail Strip / Slider */}
-            <div className="product-detail-thumbs">
-              {productImages.map((img, idx) => (
-                <div
-                  key={idx}
-                  className={`product-thumb${idx === currentSlide ? ' active' : ''}`}
-                  onClick={() => setCurrentSlide(idx)}
-                >
-                  <img src={img.src} alt={product.name + ' view ' + (idx + 1)} style={img.style} />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* COL 2: Product Info */}
-          <div className="product-detail-col-info detail-hero-text">
-            <div className="product-category-badge">
-              <span className="badge-dot"></span>
-              <span>{activeCategory.name}</span>
-            </div>
-            <h2 className="section-title split-heading text-3xl lg:text-4xl leading-tight mb-5 tracking-tight product-detail-title">
+        {/* Section 1 (2-col): Left = Product Info & Download, Right = Floating Product Image */}
+        <div className="cable-detail-banner">
+          {/* Left Column: Content */}
+          <div className="cable-detail-banner-left">
+            <span className="cable-banner-eyebrow">
+              {activeCategory.name}
+            </span>
+            <h2 className="cable-banner-title">
               {product.name}
             </h2>
-            <div className="product-detail-divider"></div>
-            <p className="section-description split-desc text-base leading-relaxed text-gray-500 mb-6">
+            <p className="cable-banner-desc">
               {specs.application}
             </p>
-            {/* Quick Specs */}
-            <div className="product-quick-specs">
-              {Object.entries(specs.technicalData).slice(0, 4).map(([key, val]) => (
-                <div key={key} className="product-quick-spec-row">
-                  <span className="spec-key">{key}</span>
-                  <span className="spec-val">{val}</span>
-                </div>
-              ))}
-            </div>
-            {/* Standard Badge */}
-            <div className="product-standard-badge">
-              <ShieldCheck className="w-5 h-5 text-[#2fa084]" />
-              <span>Standard: <strong>{specs.cableStandard}</strong></span>
-            </div>
+            <a href="#" className="cable-download-btn">
+              <span>Download Catalogue</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="download-icon">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+            </a>
           </div>
 
+          {/* Right Column: Image */}
+          <div className="cable-detail-banner-right" ref={imageRef}>
+            <img src={product.image} alt={product.name} className="cable-banner-img" />
+          </div>
         </div>
 
-        {/* Bento Box Grid */}
+        <div className="cable-detail-content-wrap">
+          {/* Bento Box Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12 bento-grid">
            
            {/* Box 1: Cable Standard */}
@@ -418,6 +370,7 @@ const Products = () => {
              </div>
           </div>
         )}
+        </div>
       </div>
     );
   };
@@ -427,8 +380,8 @@ const Products = () => {
       {/* Dynamic Breadcrumb Section */}
       <div className="breadcrumb-hero">
          <h1 className="breadcrumb-title">
-           <span key={activeProduct ? activeProduct.id : activeCategory ? activeCategory.id : 'products'} className="split-heading">
-             {activeProduct ? activeProduct.name : activeCategory ? activeCategory.name : 'Products'}
+           <span key={activeProduct ? activeProduct.id : activeCategory ? activeCategory.id : 'cable'} className="split-heading">
+             {activeProduct ? activeProduct.name : activeCategory ? activeCategory.name : 'Cable'}
            </span>
          </h1>
          
@@ -438,10 +391,10 @@ const Products = () => {
             <span className="separator">/</span>
             
             {!activeCategory && !activeProduct ? (
-              <span className="active-crumb">Products</span>
+              <span className="active-crumb">Cable</span>
             ) : (
               <>
-                <a href="#" onClick={(e) => { e.preventDefault(); setActiveCategory(null); setActiveProduct(null); }}>Products</a>
+                <a href="#" onClick={(e) => { e.preventDefault(); setActiveCategory(null); setActiveProduct(null); }}>Cable</a>
                 <span className="separator">/</span>
                 
                 {!activeProduct || !activeCategory ? (
@@ -465,7 +418,7 @@ const Products = () => {
       </div>
 
       {/* Main Layout Container */}
-      <div className={`container mx-auto px-4 max-w-7xl flex flex-col gap-12 transition-all duration-500`}>
+      <div className={`${activeProduct ? 'cable-detail-page-container' : 'cable-page-container'} flex flex-col gap-12 transition-all duration-500`}>
          
         {/* Main Content Area */}
         <main className="w-full min-w-0" ref={contentRef}>
@@ -479,7 +432,7 @@ const Products = () => {
               <div className="products-header-section flex flex-col md:flex-row md:items-center md:justify-between border-b border-gray-100 pb-6 gap-6">
                  <div>
                     <h2 key={activeCategory ? activeCategory.id : 'all'} className="all-products-title section-title split-heading text-3xl lg:text-4xl mb-0 !text-[#203a70]">
-                      {activeCategory ? activeCategory.name : 'All Products'}
+                      {activeCategory ? activeCategory.name : 'All Cables'}
                     </h2>
                  </div>
                  
@@ -487,7 +440,7 @@ const Products = () => {
                  <div className="custom-search-container relative mt-2 md:mt-0 w-full md:w-96">
                    <input 
                      type="text" 
-                     placeholder="Search products..." 
+                     placeholder="Search cables..." 
                      value={searchQuery}
                      onChange={(e) => setSearchQuery(e.target.value)}
                      className="custom-search-input w-full"
@@ -504,7 +457,7 @@ const Products = () => {
                   className="btn-uiverse group mb-8 products-back-btn"
                 >
                   <span className="flex items-center gap-2.5">
-                    Back to All Products
+                    Back to All Cables
                     <ArrowRight size={18} className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center" />
                   </span>
                 </button>
@@ -519,7 +472,7 @@ const Products = () => {
                 if (items.length === 0) {
                   return (
                     <div className="no-products-section">
-                      <p className="text-[#203a70] text-xl font-semibold mb-2">No products found matching "{searchQuery}"</p>
+                      <p className="text-[#203a70] text-xl font-semibold mb-2">No cables found matching "{searchQuery}"</p>
                       <p className="text-gray-500 text-sm">Try checking your spelling or searching for another query.</p>
                     </div>
                   );

@@ -64,7 +64,7 @@ const ProductUsage = () => {
             </div>
 
             {/* Custom CSS to hide scrollbar */}
-            <style jsx>{`
+            <style>{`
                 .no-scrollbar::-webkit-scrollbar {
                     display: none;
                 }
