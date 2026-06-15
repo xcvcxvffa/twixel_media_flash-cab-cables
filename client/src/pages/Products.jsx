@@ -190,39 +190,6 @@ const Products = () => {
               {specs.application}
             </p>
 
-            {/* Applications List */}
-            {product.id === '11kv-ht-cable' && (
-              <div className="cable-banner-apps-sec">
-                <h3 className="cable-banner-apps-heading">Applications</h3>
-                <div className="cable-banner-apps-grid">
-                  <div className="cable-app-item">
-                    <div className="cable-app-icon bg-[#84cc16] text-white">
-                      <i className="fa-solid fa-industry"></i>
-                    </div>
-                    <span className="cable-app-text">Industrial Plants</span>
-                  </div>
-                  <div className="cable-app-item">
-                    <div className="cable-app-icon bg-[#ec4899] text-white">
-                      <i className="fa-solid fa-gears"></i>
-                    </div>
-                    <span className="cable-app-text">Infrastructure Projects</span>
-                  </div>
-                  <div className="cable-app-item">
-                    <div className="cable-app-icon bg-[#3b82f6] text-white">
-                      <i className="fa-solid fa-solar-panel"></i>
-                    </div>
-                    <span className="cable-app-text">Renewable & Commercial</span>
-                  </div>
-                  <div className="cable-app-item">
-                    <div className="cable-app-icon bg-[#ea580c] text-white">
-                      <i className="fa-solid fa-tower-broadcast"></i>
-                    </div>
-                    <span className="cable-app-text">Power Distribution</span>
-                  </div>
-                </div>
-              </div>
-            )}
-
             <a href="#" className="cable-download-btn">
               <span>Download Catalogue</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="download-icon">
@@ -240,6 +207,46 @@ const Products = () => {
         </div>
 
         <div className="cable-detail-content-wrap">
+          {/* Applications Section (moved below) */}
+          {product.id === '11kv-ht-cable' && (
+            <div className="spec-table w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8 text-left animate-fade-in">
+              <h3 className="section-primary-heading relative z-10 mb-8">
+                <span className="accent-pill"></span>
+                <span className="split-heading">Applications</span>
+              </h3>
+              
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+                  <div className="w-16 h-16 rounded-full bg-[#84cc16] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
+                    <i className="fa-solid fa-industry"></i>
+                  </div>
+                  <span className="text-slate-800 font-bold text-sm mt-4">Industrial Plants</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+                  <div className="w-16 h-16 rounded-full bg-[#ec4899] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
+                    <i className="fa-solid fa-gears"></i>
+                  </div>
+                  <span className="text-slate-800 font-bold text-sm mt-4">Infrastructure Projects</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+                  <div className="w-16 h-16 rounded-full bg-[#3b82f6] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
+                    <i className="fa-solid fa-solar-panel"></i>
+                  </div>
+                  <span className="text-slate-800 font-bold text-sm mt-4">Renewable & Commercial</span>
+                </div>
+                
+                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+                  <div className="w-16 h-16 rounded-full bg-[#ea580c] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
+                    <i className="fa-solid fa-tower-broadcast"></i>
+                  </div>
+                  <span className="text-slate-800 font-bold text-sm mt-4">Power Distribution</span>
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Technical Details Grid (3x3 matching user design) */}
           <div className="spec-table w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-8">
             <h3 className="section-primary-heading relative z-10">
