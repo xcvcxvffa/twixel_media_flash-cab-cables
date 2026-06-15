@@ -6,7 +6,6 @@ const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef(null);
-  const logoRef = useRef(null);
   const lastScrollY = useRef(0);
   const headerHidden = useRef(false);
 
@@ -64,21 +63,11 @@ const Header = () => {
               duration: 0.4,
               ease: "power2.out"
           });
-          gsap.to(logoRef.current, {
-              height: '55px',
-              duration: 0.4,
-              ease: "power2.out"
-          });
       } else {
           gsap.to(headerRef.current, {
               boxShadow: 'none',
               backgroundColor: 'rgba(255, 255, 255, 1)',
               backdropFilter: 'none',
-              duration: 0.4,
-              ease: "power2.out"
-          });
-          gsap.to(logoRef.current, {
-              height: '80px',
               duration: 0.4,
               ease: "power2.out"
           });
@@ -128,8 +117,8 @@ const Header = () => {
     return (
         <header ref={headerRef} className="header" style={{ position: 'sticky', top: 0, left: 0, width: '100%', zIndex: 1000 }}>
             <div className="container header-inner" style={{ maxWidth: '100%', padding: '0 40px', justifyContent: 'space-between', gap: '40px' }}>
-                <Link to="/" className="logo" ref={logoRef} style={{ flexShrink: 0, display: 'flex', alignItems: 'center', overflow: 'hidden', height: '80px' }}>
-                    <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '200px', width: 'auto', objectFit: 'contain' }} />
+                <Link to="/" className="logo" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', height: '50px' }}>
+                    <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '100%', width: 'auto', objectFit: 'contain' }} />
                 </Link>
                 
                 {/* Mobile Overlay */}

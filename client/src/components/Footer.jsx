@@ -11,8 +11,8 @@ const Footer = () => {
         <div className="custom-footer-top">
           {/* 1. Logo, Text & Social Links */}
           <div className="footer-col-about">
-            <Link to="/" className="logo mb-6" style={{ display: 'flex', alignItems: 'center', overflow: 'hidden', height: '80px' }}>
-                <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '200px', width: 'auto', objectFit: 'contain' }} />
+            <Link to="/" className="logo mb-6" style={{ display: 'flex', alignItems: 'center' }}>
+                <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '50px', width: 'auto', objectFit: 'contain' }} />
             </Link>
             <p className="footer-text mb-8">
               Providing reliable electrical services with a focus on safety, efficiency, and advanced technology.

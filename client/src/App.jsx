@@ -12,7 +12,7 @@ import Preloader from './components/Preloader';
 
 function AppContent() {
   const location = useLocation();
-  
+
   return (
     <>
       {/* Preloader runs once when the app is first mounted */}
@@ -24,7 +24,7 @@ function AppContent() {
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/cable" element={<Products />} />
+            <Route path="/cable" element={<Products key={location.key} />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
           </Routes>

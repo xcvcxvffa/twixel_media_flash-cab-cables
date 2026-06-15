@@ -179,17 +179,16 @@ const Products = () => {
       <div className="product-details w-full animate-fade-in" ref={detailRef}>
 
         {/* Section 1 (2-col): Left = Product Info & Download, Right = Floating Product Image */}
+        {/* Section 1 (2-col): Left = Product Info & Download, Right = Floating Product Image */}
         <div className="cable-detail-banner">
           {/* Left Column: Content */}
           <div className="cable-detail-banner-left">
-
             <h2 className="cable-banner-title">
               {product.name}
             </h2>
             <p className="cable-banner-desc">
               {specs.application}
             </p>
-
             <a href="#" className="cable-download-btn">
               <span>Download Catalogue</span>
               <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="download-icon">
@@ -199,10 +198,9 @@ const Products = () => {
               </svg>
             </a>
           </div>
-
           {/* Right Column: Image */}
           <div className="cable-detail-banner-right" ref={imageRef}>
-            <img src={product.image} alt={product.name} className="cable-banner-img" />
+            <img src={product.image2 || product.image} alt={product.name} className="cable-banner-img" />
           </div>
         </div>
 
@@ -214,34 +212,34 @@ const Products = () => {
                 <span className="accent-pill"></span>
                 <span className="split-heading">Applications</span>
               </h3>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+                <div className="application-card flex flex-col items-center text-center py-10 px-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
                   <div className="w-16 h-16 rounded-full bg-[#84cc16] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
                     <i className="fa-solid fa-industry"></i>
                   </div>
-                  <span className="text-slate-800 font-bold text-sm mt-4">Industrial Plants</span>
+                  <span className="text-slate-800 font-bold text-sm">Industrial Plants</span>
                 </div>
-                
-                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+
+                <div className="application-card flex flex-col items-center text-center py-10 px-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
                   <div className="w-16 h-16 rounded-full bg-[#ec4899] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
                     <i className="fa-solid fa-gears"></i>
                   </div>
-                  <span className="text-slate-800 font-bold text-sm mt-4">Infrastructure Projects</span>
+                  <span className="text-slate-800 font-bold text-sm">Infrastructure Projects</span>
                 </div>
-                
-                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+
+                <div className="application-card flex flex-col items-center text-center py-10 px-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
                   <div className="w-16 h-16 rounded-full bg-[#3b82f6] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
                     <i className="fa-solid fa-solar-panel"></i>
                   </div>
-                  <span className="text-slate-800 font-bold text-sm mt-4">Renewable & Commercial</span>
+                  <span className="text-slate-800 font-bold text-sm">Renewable & Commercial</span>
                 </div>
-                
-                <div className="flex flex-col items-center text-center p-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
+
+                <div className="application-card flex flex-col items-center text-center py-10 px-6 bg-slate-50/50 rounded-2xl border border-slate-100 hover:shadow-md hover:bg-white hover:border-blue-100/50 transition-all duration-300 group">
                   <div className="w-16 h-16 rounded-full bg-[#ea580c] text-white flex items-center justify-center text-2xl shadow-md transition-transform group-hover:scale-110 duration-300">
                     <i className="fa-solid fa-tower-broadcast"></i>
                   </div>
-                  <span className="text-slate-800 font-bold text-sm mt-4">Power Distribution</span>
+                  <span className="text-slate-800 font-bold text-sm">Power Distribution</span>
                 </div>
               </div>
             </div>
@@ -294,68 +292,7 @@ const Products = () => {
             </div>
           </div>
 
-          {/* Core Colour Coding Card */}
-          <div className="bento-box w-full bg-gradient-to-r from-[#203a70] to-[#2a4d94] p-8 rounded-3xl shadow-lg relative overflow-hidden group mb-12">
-            <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-5 rounded-full blur-3xl -mr-20 -mt-20"></div>
-            <div className="relative z-10 text-left">
-              <h3 className="bento-heading white-text flex items-center gap-3">
-                <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center shrink-0 backdrop-blur-md border border-white/20">
-                  <Palette className="w-6 h-6 text-white" />
-                </div>
-                <span className="split-heading">Core Colour Coding</span>
-              </h3>
-              <p className="text-blue-100 leading-relaxed max-w-4xl mt-4">{specs.coreColour}</p>
-            </div>
-          </div>
 
-          {/* Technical Data Table */}
-          {specs.tableData && specs.tableData.length > 0 && (
-            <div className="spec-table w-full bg-white rounded-3xl shadow-sm border border-gray-100 p-8 mb-12">
-              <h3 className="section-primary-heading relative z-10">
-                <span className="accent-pill"></span>
-                <span className="split-heading">Complete Specification Data</span>
-              </h3>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm text-left border-collapse min-w-[1000px]">
-                  <thead className="text-white">
-                    {/* Top Header Row */}
-                    <tr className="bg-[#203a70]">
-                      <th colSpan="2" className="border-r border-white/20 px-4 py-4 text-center font-bold tracking-wide rounded-tl-xl">Conductor</th>
-                      <th colSpan="2" className="border-r border-white/20 px-4 py-4 text-center font-bold tracking-wide">Insulation</th>
-                      <th colSpan="3" className="border-r border-white/20 px-4 py-4 text-center font-bold tracking-wide">Total Thickness & Diameter</th>
-                      <th rowSpan="2" className="border-r border-white/20 px-4 py-4 text-center align-middle whitespace-nowrap font-bold">Resistance<br /><span className="text-xs font-normal opacity-80">at 20°C (max)</span></th>
-                      <th rowSpan="2" className="px-4 py-4 text-center align-middle whitespace-nowrap font-bold rounded-tr-xl">Current Rating<br /><span className="text-xs font-normal opacity-80">40°C</span></th>
-                    </tr>
-                    {/* Sub Header Row */}
-                    <tr className="bg-[#2a4d94]">
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium">Size (Sq.mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium">Wires (Nos.mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium">Thickness (mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium">Core OD (mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium">Thickness (mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium bg-[#3b5998]">3 Core (mm)</th>
-                      <th className="border-r border-t border-white/20 px-3 py-3 text-center text-xs font-medium bg-[#3b5998]">4 Core (mm)</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {specs.tableData.map((row, idx) => (
-                      <tr key={idx} className="hover:bg-blue-50/50 transition-colors border-b border-gray-100 last:border-0 group">
-                        <td className="px-4 py-4 text-center text-gray-800 font-semibold">{row.size}</td>
-                        <td className="px-4 py-4 text-center text-gray-600">{row.wires}</td>
-                        <td className="px-4 py-4 text-center text-gray-600">{row.insThick}</td>
-                        <td className="px-4 py-4 text-center text-gray-600">{row.coreOD}</td>
-                        <td className="px-4 py-4 text-center text-gray-600">{row.sheathThick}</td>
-                        <td className="px-4 py-4 text-center text-gray-600 bg-gray-50 group-hover:bg-blue-50/50 transition-colors">{row.over3Core}</td>
-                        <td className="px-4 py-4 text-center text-gray-600 bg-gray-50 group-hover:bg-blue-50/50 transition-colors">{row.over4Core}</td>
-                        <td className="px-4 py-4 text-center font-mono text-[#203a70]">{row.res}</td>
-                        <td className="px-4 py-4 text-center font-bold text-[#2fa084]">{row.rating}A</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          )}
 
           {/* Related Products Section */}
           {activeCategory && activeCategory.subCategories && activeCategory.subCategories.length > 1 && (
@@ -382,7 +319,7 @@ const Products = () => {
                           src={item.image}
                           alt={item.name}
                           className="transition-transform duration-500 group-hover:scale-105"
-                          style={{ width: '85%', margin: '0 auto', height: '200px', objectFit: 'contain', mixBlendMode: 'multiply', display: 'block' }}
+                          style={{ width: '85%', margin: '0 auto', height: '200px', objectFit: 'contain', mixBlendMode: 'multiply', display: 'block', transformOrigin: 'bottom center', backfaceVisibility: 'hidden', willChange: 'transform' }}
                         />
                         <div className="absolute bottom-0 left-0 w-full pointer-events-none" style={{ height: '60px', background: 'linear-gradient(to bottom, rgba(239,239,239,0) 0%, rgba(239,239,239,1) 100%)' }}></div>
                       </div>
@@ -512,13 +449,13 @@ const Products = () => {
                         {/* Gray Image Box — premium card layout */}
                         <div
                           className="rounded-2xl overflow-hidden relative transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl w-full mb-5 border border-gray-100"
-                          style={{ backgroundColor: '#EFEFEF', padding: '24px' }}
+                          style={{ backgroundColor: '#EFEFEF', paddingTop: '24px', paddingRight: '24px', paddingLeft: '24px'  }}
                         >
                           <img
                             src={item.image}
                             alt={item.name}
                             className="transition-transform duration-500 group-hover:scale-105"
-                            style={{ width: '85%', margin: '0 auto', height: '200px', objectFit: 'contain', mixBlendMode: 'multiply', display: 'block' }}
+                            style={{ width: '85%', margin: '0 auto', height: '200px', objectFit: 'contain', mixBlendMode: 'multiply', display: 'block', transformOrigin: 'bottom center', backfaceVisibility: 'hidden', willChange: 'transform' }}
                           />
                           {/* Bottom fade — same as mega-menu-card::after */}
                           <div className="absolute bottom-0 left-0 w-full pointer-events-none" style={{ height: '60px', background: 'linear-gradient(to bottom, rgba(239,239,239,0) 0%, rgba(239,239,239,1) 100%)' }}></div>

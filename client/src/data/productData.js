@@ -1,9 +1,9 @@
 export const productCategories = [
   {
     id: '11kv-ht-cable',
-    name: '11 kv HT cable ( 66 kv / 33 kv )',
-    image: '/assets/images/ht_cable_diagram.png',
-    image2: '/assets/images/industrial_cable.png',
+    name: '11 kv HT cable',
+    image: '/assets/images/11_kv_HT_cable.png',
+    image2: '/assets/images/11 KV HT CABLE 2.png',
     subCategories: [],
     specs: {
       cableStandard: 'IS 7098 (Part 2) / IEC 60502-2',
