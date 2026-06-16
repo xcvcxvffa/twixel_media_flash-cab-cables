@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useInView } from 'framer-motion';
 import { Zap, Star, Globe, ArrowRight, ShieldCheck, Leaf, Cpu } from 'lucide-react';
-import ProductUsage from '../components/ProductUsage';
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -478,124 +478,7 @@ const Home = () => {
                 </div>
             </section>
 
-            {/* 2.5 At a Glance Slider Section */}
-            <section className="glance-section" style={{ position: 'relative' }}>
-                {/* Custom Cursor */}
-                <div className="swipe-cursor" ref={swipeCursorRef}>SWIPE</div>
 
-                <div className="container mx-auto">
-                    <div className="glance-header">
-                        <span className="premium-eyebrow">
-                            AT A GLANCE
-                        </span>
-                        <h2 style={{ fontSize: 'clamp(32px, 4vw, 48px)', fontFamily: 'var(--font-heading)', fontWeight: 500, color: 'var(--secondary-color)', letterSpacing: '-0.02em', lineHeight: 1.1 }}>
-                            Why choose Flash Cab Cables
-                        </h2>
-                    </div>
-                </div>
-
-                {/* Full width container, extracted from mx-auto */}
-                <div className="glance-slider-container" ref={glanceSliderRef}>
-                    <div className="glance-slider-track">
-
-                        {/* ====== CARD SET 1 ====== */}
-                        {/* Image Card 1 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/about_polaroid_1.jpg')` }}>
-                            <div className="glance-image-card-content">
-                                <h3>25%</h3>
-                                <p>SHOPFLOOR DIVERSITY</p>
-                            </div>
-                        </div>
-
-                        {/* Image Card 2 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/about_polaroid_2.jpg')` }}>
-                            <div className="glance-image-card-content">
-                                <h3>ZERO</h3>
-                                <p>WASTE TO LANDFILL</p>
-                            </div>
-                        </div>
-
-                        {/* Text Card 1 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="gptw-logo">
-                                Great<br />Place<br />To<br />Work®
-                            </div>
-                            <p>Certified for four years in a row</p>
-                        </div>
-
-                        {/* Text Card 2 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="icon"><i className="fa-solid fa-bullseye"></i></div>
-                            <h3>110+</h3>
-                            <p>innovative cable and conductor designs</p>
-                        </div>
-
-                        {/* Image Card 3 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/hero_sharp.png')` }}>
-                            <div className="glance-image-card-content">
-                                <p style={{ fontSize: '14px', marginBottom: '4px' }}>PIONEERED</p>
-                                <h3>ACCC</h3>
-                                <p>TECHNOLOGY IN INDIA</p>
-                            </div>
-                        </div>
-
-                        {/* Text Card 3 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="icon"><i className="fa-solid fa-globe"></i></div>
-                            <h3>70+</h3>
-                            <p>Countries exported to</p>
-                        </div>
-
-                        {/* ====== CARD SET 2 (DUPLICATE FOR INFINITE LOOP) ====== */}
-                        {/* Image Card 1 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/about_polaroid_1.jpg')` }}>
-                            <div className="glance-image-card-content">
-                                <h3>25%</h3>
-                                <p>SHOPFLOOR DIVERSITY</p>
-                            </div>
-                        </div>
-
-                        {/* Image Card 2 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/about_polaroid_2.jpg')` }}>
-                            <div className="glance-image-card-content">
-                                <h3>ZERO</h3>
-                                <p>WASTE TO LANDFILL</p>
-                            </div>
-                        </div>
-
-                        {/* Text Card 1 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="gptw-logo">
-                                Great<br />Place<br />To<br />Work®
-                            </div>
-                            <p>Certified for four years in a row</p>
-                        </div>
-
-                        {/* Text Card 2 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="icon"><i className="fa-solid fa-bullseye"></i></div>
-                            <h3>110+</h3>
-                            <p>innovative cable and conductor designs</p>
-                        </div>
-
-                        {/* Image Card 3 */}
-                        <div className="glance-card glance-image-card" style={{ backgroundImage: `url('/assets/images/hero_sharp.png')` }}>
-                            <div className="glance-image-card-content">
-                                <p style={{ fontSize: '14px', marginBottom: '4px' }}>PIONEERED</p>
-                                <h3>ACCC</h3>
-                                <p>TECHNOLOGY IN INDIA</p>
-                            </div>
-                        </div>
-
-                        {/* Text Card 3 */}
-                        <div className="glance-card glance-text-card">
-                            <div className="icon"><i className="fa-solid fa-globe"></i></div>
-                            <h3>70+</h3>
-                            <p>Countries exported to</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             {/* 2.6 Intelligent Infrastructure (Section 4) */}
             <section className="intellisense-wrapper">
@@ -683,7 +566,7 @@ const Home = () => {
                         </div>
                     </div>
 
-                    <a href="#" className="btn-uiverse group" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
+                    <a href="/cable" className="btn-uiverse group" style={{ marginTop: '40px', background: '#000', color: '#fff' }}>
                         <span className="flex items-center gap-2.5" style={{ color: '#fff' }}>
                             Explore Cables
                             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
@@ -912,7 +795,7 @@ const Home = () => {
                 </div>
             </section>
 
-            <ProductUsage />
+
 
             {/* 3. What We Do (Cards) */}
             <section className="section-padding gsap-stagger-text" style={{ background: 'var(--bg-white)' }}>
