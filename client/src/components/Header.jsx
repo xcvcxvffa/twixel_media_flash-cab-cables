@@ -133,7 +133,7 @@ const Header = () => {
                         <li><Link to="/about" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>About</Link></li>
                         <li><Link to="/cable" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Cable</Link></li>
                         {/* <li><a href="/#conductors" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Conductors</a></li> */}
-                        <li><Link to="/services" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>EPC</Link></li>
+                        {/* <li><Link to="/services" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>EPC</Link></li> */}
                         {/* <li><Link to="/blog" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Blog & News</Link></li> */}
                         <li><Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link></li>
                     </ul>

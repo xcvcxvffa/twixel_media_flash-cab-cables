@@ -408,26 +408,30 @@ const Home = () => {
             </section>
 
             {/* 2. Editorial About Us Section */}
-            <section id="premium-about" className="section-padding" style={{ background: 'var(--bg-white)', position: 'relative', overflow: 'hidden' }}>
+            <section id="premium-about" className="about-hero-section">
                 <div className="container mx-auto">
                     <div className="premium-about-wrapper">
 
                         {/* Left: Polaroid Stack Layout */}
                         <div className="premium-about-col" style={{ flex: '1 1 45%', minWidth: '300px' }}>
                             <div className="polaroid-stack" style={{ cursor: 'pointer' }}>
-                                <img src="/assets/images/about_polaroid_2.jpg" alt="Flash Cab Main" className="polaroid-back" />
-                                <img src="/assets/images/about_polaroid_1.jpg" alt="Flash Cab Secondary" className="polaroid-front" />
+                                <div className="polaroid-card polaroid-back">
+                                    <img src="/assets/images/about_polaroid_2.jpg" alt="Quality Assurance" />
+                                </div>
+                                <div className="polaroid-card polaroid-front">
+                                    <img src="/assets/images/about_polaroid_1.jpg" alt="Flash Cab Cables" />
+                                </div>
                             </div>
                         </div>
 
                         {/* Right: Premium Content & Bento Stats */}
-                        <div className="premium-about-col gsap-stagger-text" style={{ flex: '1 1 45%', minWidth: '300px' }}>
+                        <div className="premium-about-col premium-about-content gsap-stagger-text" style={{ flex: '1 1 45%', minWidth: '300px' }}>
                             <span className="premium-eyebrow">ABOUT FLASH CAB CABLES</span>
-                            <h2 style={{ fontSize: 'clamp(36px, 4vw, 52px)', fontFamily: 'var(--font-heading)', fontWeight: 500, color: 'var(--secondary-color)', marginBottom: '24px', lineHeight: 1.1, letterSpacing: '-0.02em' }}>
-                                Engineering the Next Era of Connectivity
+                            <h2 className="premium-about-title">
+                                Powering Connections with Precision and Reliability
                             </h2>
-                            <p style={{ fontSize: '18px', color: 'var(--text-light)', lineHeight: 1.8, marginBottom: '40px', fontFamily: 'var(--font-body)' }}>
-                                For over 18 years, Flash Cab Cables has been at the forefront of manufacturing advanced electrical and optical solutions, driven by an unwavering commitment to quality and innovation.
+                            <p className="premium-about-desc">
+                                At Flashcab Cables, we deliver top-quality wire and cable products engineered for performance, durability, and safety. From industrial-grade cables to specialized wiring solutions, we empower industries to connect, build, and thrive.
                             </p>
 
                             {/* Premium Bento Stats Grid */}
