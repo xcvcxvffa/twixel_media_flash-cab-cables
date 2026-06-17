@@ -117,7 +117,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-white pt-24 pb-20">
       {/* Dynamic Breadcrumb Section */}
-      <div className="breadcrumb-hero">
+      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/impact_bg.png')" }}>
          <h1 className="breadcrumb-title">
            <span key={activeCategory} className="split-heading">
              {activeCategory === 'All' ? 'Blog & News' : activeCategory}

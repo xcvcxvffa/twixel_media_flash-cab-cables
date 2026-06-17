@@ -1,0 +1,219 @@
+.cookie-consent-wrapper {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 99999;
+  width: 360px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.cookie-consent-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 24px 24px;
+  position: relative;
+  text-align: center;
+}
+
+.cookie-close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #a0a0a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.cookie-close-btn:hover {
+  color: #111;
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.cookie-modern-icon-wrapper {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  position: relative;
+  animation: floatCookie 6s ease-in-out infinite;
+}
+
+.cookie-svg-icon {
+  width: 100%;
+  height: 100%;
+  filter: drop-shadow(0 12px 18px rgba(205, 155, 102, 0.35));
+}
+
+/* We don't want the bite cutout to look grey against the shadow, 
+   so we keep it white to simulate the bitten part against the card */
+.cookie-bite-mask {
+  fill: #ffffff;
+  opacity: 0.98;
+}
+
+.cookie-text-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.cookie-title {
+  font-family: var(--font-heading), sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cookie-desc {
+  font-size: 14.5px;
+  color: #666666;
+  margin: 0;
+  line-height: 1.6;
+  padding: 0 8px;
+}
+
+.cookie-link {
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  position: relative;
+}
+
+.cookie-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: var(--secondary-color);
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+.cookie-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* 1 Line Button Row */
+.cookie-actions-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.cookie-accept-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 9999px;
+  border: none;
+  padding: 14px 24px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cookie-accept-btn:hover {
+  background-color: #1a1a1a;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.cookie-accept-btn span {
+  position: relative;
+  /* Soft blue glow effect on text as seen in reference */
+  text-shadow: 0 0 10px rgba(100, 150, 255, 0.5);
+}
+
+.cookie-decline-btn {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.04);
+  border: none;
+  color: #666666;
+  font-family: var(--font-heading), sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 14px 20px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.cookie-decline-btn:hover {
+  color: #111;
+  background: rgba(0, 0, 0, 0.08);
+}
+
+@keyframes fadeUpCookie {
+  0% {
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes floatCookie {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-8px) rotate(2deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUpCookie 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (max-width: 600px) {
+  .cookie-consent-wrapper {
+    bottom: 20px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+  }
+
+  .cookie-actions-row {
+    flex-direction: column;
+  }
+}

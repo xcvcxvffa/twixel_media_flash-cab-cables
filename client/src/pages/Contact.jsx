@@ -1,10 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, Phone, Mail, Send, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
+gsap.registerPlugin(ScrollTrigger);
+
 const Contact = () => {
+  const containerRef = useRef(null);
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -15,8 +19,8 @@ const Contact = () => {
   const [status, setStatus] = useState('');
 
   useGSAP(() => {
-    // Split Headings for GSAP
-    const splitHeadings = document.querySelectorAll('.split-heading');
+    // ── Split Heading Animation (Same as About/Home pages) ──
+    const splitHeadings = document.querySelectorAll('.contact-page-wrapper h1, .contact-page-wrapper h2, .contact-page-wrapper h3, .split-heading');
     
     splitHeadings.forEach(heading => {
         const isSplit = heading.querySelector('.anim-word') !== null;
@@ -35,24 +39,56 @@ const Contact = () => {
 
         const words = heading.querySelectorAll('.anim-word');
         if (words.length > 0) {
-            gsap.fromTo(words, 
-              { opacity: 0, y: "120%" },
-              {
-                opacity: 1,
-                y: "0%",
-                stagger: 0.1,
-                ease: "power3.out", 
-                duration: 0.8
+            gsap.to(words, {
+              opacity: 1,
+              y: "0%",
+              stagger: 0.15,
+              ease: "power3.out",
+              duration: 0.8,
+              scrollTrigger: {
+                trigger: heading,
+                start: "top 85%",
+                toggleActions: "play reverse play reverse"
               }
-            );
+            });
         }
     });
 
-    gsap.fromTo('.gsap-reveal', 
-      { y: 50, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: 'power3.out' }
-    );
-  }, []);
+    // ── Paragraph / Desc Fade-Up (Same as About/Home pages) ──
+    const globalParagraphs = document.querySelectorAll('.gsap-stagger-text p, .split-desc');
+    globalParagraphs.forEach(el => {
+      gsap.fromTo(el,
+        { autoAlpha: 0, y: 40 },
+        {
+          autoAlpha: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 85%",
+            toggleActions: "play reverse play reverse"
+          }
+        }
+      );
+    });
+
+    // ── Reveal Animations ──
+    gsap.utils.toArray('.gsap-reveal').forEach((el) => {
+      gsap.fromTo(el,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1, y: 0, duration: 1, ease: 'power3.out',
+          scrollTrigger: {
+            trigger: el,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+
+  }, { scope: containerRef });
 
   const handleChange = (e) => {
     setFormData({...formData, [e.target.name]: e.target.value});
@@ -81,11 +117,11 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#fafbfc] pt-24">
+    <div ref={containerRef} className="contact-page-wrapper">
       {/* Page Header */}
-      <div className="breadcrumb-hero">
-         <h1 className="breadcrumb-title">
-           <span key="contact-title" className="split-heading">Get in Touch</span>
+      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/industrial_mix_bg.png')" }}>
+         <h1 className="breadcrumb-title split-heading">
+           Get in Touch
          </h1>
          
          {/* Breadcrumb Navigation */}
@@ -97,14 +133,14 @@ const Contact = () => {
       </div>
 
       {/* Contact Section */}
-      <section className="py-24">
-        <div className="container mx-auto px-4 md:px-10">
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20 mb-20">
+      <section className="contact-section">
+        <div className="contact-container">
+          <div className="contact-grid">
             
             {/* Left: Info Cards */}
-            <div className="lg:col-span-2 space-y-6">
-              <h2 className="contact-main-heading">
-                Reach out to our experts.
+            <div className="contact-info-col gsap-stagger-text">
+              <h2 className="contact-main-heading split-heading">
+                Reach out to<br/>our experts.
               </h2>
               
               <div className="gsap-reveal contact-info-card contact-details-wrapper">
@@ -112,11 +148,11 @@ const Contact = () => {
                 {/* Location */}
                 <div className="contact-detail-row">
                   <div className="contact-detail-icon-box">
-                    <MapPin className="text-[#2fa084]" size={22} strokeWidth={2.5} />
+                    <MapPin className="contact-icon" size={22} strokeWidth={2.5} />
                   </div>
-                  <div>
-                    <span className="text-xs font-semibold text-[#64748b] uppercase tracking-widest block mb-2">Corporate Office & Factory</span>
-                    <p className="text-[#405473] text-[17px] leading-[1.8]">
+                  <div className="contact-detail-text">
+                    <span className="contact-detail-label">Corporate Office & Factory</span>
+                    <p className="contact-detail-value">
                       R S NO 9 P4/P1, Plot No 1 & 2,<br/>
                       National Highway 27, Opp. BPCL Petrol Pump,
                       Biliyala, Gondal, <br/>Rajkot, Gujarat-360005
@@ -127,11 +163,11 @@ const Contact = () => {
                 {/* Phone */}
                 <div className="contact-detail-row">
                   <div className="contact-detail-icon-box">
-                    <Phone className="text-[#2fa084]" size={22} strokeWidth={2.5} />
+                    <Phone className="contact-icon" size={22} strokeWidth={2.5} />
                   </div>
-                  <div>
-                    <span className="text-xs font-semibold text-[#64748b] uppercase tracking-widest block mb-2">Sales & Inquiry</span>
-                    <p className="text-[#2fa084] text-[20px] font-medium mt-1">
+                  <div className="contact-detail-text">
+                    <span className="contact-detail-label">Sales & Inquiry</span>
+                    <p className="contact-detail-phone">
                       +91 90 93 94 95 99
                     </p>
                   </div>
@@ -140,11 +176,11 @@ const Contact = () => {
                 {/* Email */}
                 <div className="contact-detail-row">
                   <div className="contact-detail-icon-box">
-                    <Mail className="text-[#2fa084]" size={22} strokeWidth={2.5} />
+                    <Mail className="contact-icon" size={22} strokeWidth={2.5} />
                   </div>
-                  <div>
-                    <span className="text-xs font-semibold text-[#64748b] uppercase tracking-widest block mb-2">Email Us</span>
-                    <p className="text-[#405473] text-[18px] font-medium hover:text-[#2fa084] transition-colors cursor-pointer mt-1">
+                  <div className="contact-detail-text">
+                    <span className="contact-detail-label">Email Us</span>
+                    <p className="contact-detail-email">
                       info@flashcabcables.com
                     </p>
                   </div>
@@ -154,12 +190,12 @@ const Contact = () => {
             </div>
 
             {/* Right: Premium Form */}
-            <div className="lg:col-span-3 gsap-reveal">
+            <div className="contact-form-col gsap-reveal">
               <div className="contact-form-container">
-                <h3 className="contact-form-heading">Send Us a Message</h3>
+                <h3 className="contact-form-heading split-heading">Send Us a Message</h3>
                 <form onSubmit={handleSubmit}>
                   <div className="contact-form-row">
-                    <div className="relative group">
+                    <div className="contact-input-group">
                       <input 
                         type="text" 
                         name="firstName"
@@ -170,7 +206,7 @@ const Contact = () => {
                         className="contact-custom-input" 
                       />
                     </div>
-                    <div className="relative group">
+                    <div className="contact-input-group">
                       <input 
                         type="text" 
                         name="lastName"
@@ -183,7 +219,7 @@ const Contact = () => {
                     </div>
                   </div>
                   
-                  <div className="relative group">
+                  <div className="contact-input-group">
                     <input 
                       type="email" 
                       name="email"
@@ -195,9 +231,9 @@ const Contact = () => {
                     />
                   </div>
                   
-                  <div className="relative group">
+                  <div className="contact-input-group">
                     <textarea 
-                      rows="4" 
+                      rows="5" 
                       name="message"
                       value={formData.message}
                       onChange={handleChange}
@@ -207,22 +243,22 @@ const Contact = () => {
                     ></textarea>
                   </div>
 
-                  <button type="submit" className="solax-btn-dark group">
+                  <button type="submit" className="contact-submit-btn group">
                     <div className="solax-btn-dot"></div>
                     <span>Send Message</span>
-                    <ArrowRight size={18} className="transform transition-transform duration-300 group-hover:translate-x-1" />
+                    <ArrowRight size={18} className="contact-btn-arrow" />
                   </button>
-                  {status && <p className="mt-4 font-medium text-[#2fa084]">{status}</p>}
+                  {status && <p className="contact-status-msg">{status}</p>}
                 </form>
               </div>
             </div>
           </div>
 
-          {/* Google Map Section */}
+          {/* Google Map Section — Exact Biliyala, NH-27, Gondal Location */}
           <div className="gsap-reveal contact-map-wrapper">
             <iframe 
               className="contact-map-iframe"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d118237.98926955042!2d70.67290022370776!3d21.94270417931326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39583a62854dd0a5%3A0xc3191fcd52c92330!2sGondal%2C%20Gujarat!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
+              src="https://www.google.com/maps?q=Flashcab+Cables+Pvt+Ltd,+National+Highway+27,+Opp+BPCL+Petrol+Pump,+Biliyala,+Gondal,+Rajkot,+Gujarat+360311&output=embed&z=15" 
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"

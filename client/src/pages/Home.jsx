@@ -50,6 +50,8 @@ const Home = () => {
     const productsCursorRef = useRef(null);
     const conductorsSliderRef = useRef(null);
     const conductorsCursorRef = useRef(null);
+    const clientsSliderRef = useRef(null);
+    const clientsCursorRef = useRef(null);
 
 
     // Blog Slider Drag State
@@ -382,6 +384,7 @@ const Home = () => {
         initInfiniteSlider(glanceSliderRef, '.glance-slider-track', swipeCursorRef);
         initInfiniteSlider(productsSliderRef, '.products-slider-track', productsCursorRef);
         initInfiniteSlider(conductorsSliderRef, '.conductors-slider-track', conductorsCursorRef);
+        initInfiniteSlider(clientsSliderRef, '.clients-slider-track', clientsCursorRef);
 
 
         return () => {
@@ -406,6 +409,8 @@ const Home = () => {
                     <p className="hero-desc" style={{ fontSize: '20px', color: '#fff', maxWidth: '700px', fontWeight: 500, fontFamily: 'var(--font-body)', letterSpacing: '-0.02em' }}>Next-generation electrical and optical solutions built for the world's most demanding environments.</p>
                 </div>
             </section>
+
+
 
             {/* 2. Editorial About Us Section */}
             <section id="premium-about" className="about-hero-section">
@@ -648,26 +653,31 @@ const Home = () => {
                     <div className="hidden lg:block w-[1px] h-16 bg-[#1F6F5F]/20 shrink-0 z-10"></div>
 
                     {/* Right Side: Slider */}
-                    <div className="w-full lg:flex-1 relative flex items-center overflow-hidden z-10 h-16 lg:h-20 slider-mask">
+                    <div ref={clientsSliderRef} className="w-full lg:flex-1 relative flex items-center overflow-hidden z-10 h-24 lg:h-32 slider-mask cursor-none">
 
-                        <div className="flex animate-marquee-left whitespace-nowrap items-center hover:[animation-play-state:paused]">
-                            {[...Array(4)].map((_, setIdx) => (
-                                <React.Fragment key={`r1-${setIdx}`}>
-                                    <div className="flex items-center justify-center w-32 md:w-48 mx-6 bg-transparent rounded-xl transition-transform hover:-translate-y-1">
-                                        <span className="font-bold text-2xl md:text-3xl" style={{ color: 'var(--text-light)', opacity: 0.6 }}>Logo</span>
-                                    </div>
-                                    <div className="flex items-center justify-center w-32 md:w-48 mx-6 bg-transparent rounded-xl transition-transform hover:-translate-y-1">
-                                        <span className="font-bold text-2xl md:text-3xl" style={{ color: 'var(--text-light)', opacity: 0.6 }}>logo</span>
-                                    </div>
-                                    <div className="flex items-center justify-center w-32 md:w-48 mx-6 bg-transparent rounded-xl transition-transform hover:-translate-y-1">
-                                        <span className="font-bold text-2xl md:text-3xl" style={{ color: 'var(--text-light)', opacity: 0.6 }}>Logo</span>
-                                    </div>
-                                    <div className="flex items-center justify-center w-32 md:w-48 mx-6 bg-transparent rounded-xl transition-transform hover:-translate-y-1">
-                                        <span className="font-bold text-2xl md:text-3xl" style={{ color: 'var(--text-light)', opacity: 0.6 }}>logo</span>
-                                    </div>
-                                </React.Fragment>
+                        <div className="clients-slider-track flex whitespace-nowrap items-center w-max" style={{ willChange: 'transform' }}>
+                            {[
+                                'APCPDCL.png', 'DGVCL.png', 'GETCO.png', 'HI TECH.png',
+                                'INDIAN OIL.png', 'KP GROUP.png', 'MGVCL.png', 'MPPKVVCL.png',
+                                'ONIX.png', 'PGVCL.png', 'RAJESH POWER.png', 'UGVCL.png',
+                                'VIKRAN.png', 'VIVIANA.png'
+                            ].map((logo, idx) => (
+                                <div key={idx} className="flex-shrink-0 flex justify-center items-center w-[140px] sm:w-[160px] md:w-[180px] lg:w-[calc(75vw/6)] xl:w-[220px] px-4">
+                                    <img
+                                        src={`/assets/images/Client Logo/${logo}`}
+                                        alt="Client Logo"
+                                        draggable="false"
+                                        className="w-[100px] sm:w-[120px] md:w-[140px] lg:w-[160px] h-[40px] sm:h-[50px] md:h-[60px] lg:h-[70px] object-contain grayscale opacity-60 hover:grayscale-0 hover:opacity-100 transition-all duration-300 drop-shadow-sm hover:drop-shadow-md hover:scale-105"
+                                    />
+                                </div>
                             ))}
                         </div>
+
+                        {/* Custom Swipe Cursor */}
+                        <div ref={clientsCursorRef} className="swipe-cursor" style={{ position: 'absolute' }}>
+                            <span>SWIPE</span>
+                        </div>
+
                     </div>
                 </div>
             </section>
@@ -969,6 +979,7 @@ const Home = () => {
                     </div>
                 </div>
             </section> */}
+
         </div>
     );
 };

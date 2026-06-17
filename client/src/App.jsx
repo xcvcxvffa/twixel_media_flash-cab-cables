@@ -1,14 +1,16 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 import Home from './pages/Home';
 import About from './pages/About';
 import Services from './pages/Services';
 import Contact from './pages/Contact';
 import Products from './pages/Products';
 import Blog from './pages/Blog';
-import Preloader from './components/Preloader';
+import CookiePolicy from './components/CookieConsent/CookiePolicy';
+import Preloader from './components/Preloader/Preloader';
+import CookieConsent from './components/CookieConsent/CookieConsent';
 
 function AppContent() {
   const location = useLocation();
@@ -28,10 +30,12 @@ function AppContent() {
             <Route path="/cable/:productId" element={<Products key={location.key} />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/cookie-policy" element={<CookiePolicy />} />
           </Routes>
         </main>
         <Footer />
         <ScrollToTop />
+        <CookieConsent />
       </div>
     </>
   );

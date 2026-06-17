@@ -955,7 +955,7 @@ const Products = () => {
   return (
     <div className="min-h-screen bg-white pt-24 pb-20">
       {/* Dynamic Breadcrumb Section */}
-      <div className="breadcrumb-hero">
+      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/mega_cables.png')" }}>
         <h1 className="breadcrumb-title">
           <span key={activeProduct ? activeProduct.id : activeCategory ? activeCategory.id : 'cable'} className="split-heading">
             {activeProduct ? activeProduct.name : activeCategory ? activeCategory.name : 'Cable'}

@@ -10,7 +10,8 @@ import {
   Home, Power, Radio, Sprout, Building, Download, ShieldAlert, Zap,
   Calendar, MapPin, Network, FlaskConical, ClipboardCheck, Timer, Headset
 } from 'lucide-react';
-import SideRays from '../components/SideRays';
+import SideRays from '../components/SideRays/SideRays';
+import '../stars.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -232,15 +233,15 @@ const About = () => {
       // Safe animation: target the inner elements so their absolute coordinates are preserved
       .fromTo(".industries-node-icon",
         { scale: 0, opacity: 0, xPercent: -50, yPercent: -50 },
-        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, stagger: 0.1, duration: 0.6, ease: "back.out(1.7)" }
+        { scale: 1, opacity: 1, xPercent: -50, yPercent: -50, stagger: 0.02, duration: 0.2, ease: "back.out(1.2)" }
         , "-=0.2")
       .from(".industries-node-text", {
         x: (index, target) => target.classList.contains("left") ? 20 : -20,
         opacity: 0,
-        stagger: 0.1,
-        duration: 0.6,
+        stagger: 0.02,
+        duration: 0.2,
         ease: "power3.out"
-      }, "<0.1");
+      }, "<0.02");
 
     let mm = gsap.matchMedia();
     const polaroidStack = document.querySelector('.polaroid-stack');
@@ -394,7 +395,7 @@ const About = () => {
     <div ref={containerRef} className="about-page-wrapper bg-[#F8F9FB] text-[#111111] overflow-hidden font-sans">
 
       {/* Page Header (Theme Breadcrumb) */}
-      <div className="breadcrumb-hero pt-24">
+      <div className="breadcrumb-hero pt-24" style={{ backgroundImage: "url('/assets/images/team_working.png')" }}>
         <h1 className="breadcrumb-title split-heading">
           About Us
         </h1>
@@ -1060,14 +1061,14 @@ const About = () => {
       {/* =====================================================================
           SECTION 7: CTA
           ===================================================================== */}
-      <section className="about-section-dark py-24 md:py-32">
-        <div className="absolute inset-0 bg-gradient-to-r from-[#E6008D]/20 to-[#5A78B8]/20 z-0"></div>
-        <motion.div
-          animate={{ backgroundPosition: ['0% 0%', '100% 100%'] }}
-          transition={{ duration: 20, repeat: Infinity, repeatType: "reverse" }}
-          className="absolute inset-0 opacity-20"
-          style={{ backgroundImage: 'radial-gradient(circle at center, #ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}
-        />
+      <section className="about-section-dark py-24 md:py-32 relative overflow-hidden">
+        {/* Starry Background Container */}
+        <div className="stars-container">
+          <div id="stars"></div>
+          <div id="stars2"></div>
+          <div id="stars3"></div>
+        </div>
+
         <div className="container mx-auto px-6 relative z-10 max-w-4xl flex flex-col items-center justify-center gap-6 text-center">
 
           <h2 className="split-heading about-title-margin !mb-0 text-white-heading !font-[500]">
@@ -1079,34 +1080,20 @@ const About = () => {
           </p>
 
           <div className="flex items-center justify-center w-full">
-            <Link to="/contact" className="solax-btn-dark group">
-              <div className="solax-btn-dot"></div>
-
-              <span>Partner With Us</span>
-
-              <ArrowRight
-                size={18}
-                className="transition-transform duration-300 group-hover:translate-x-1"
-              />
+            <Link to="/contact" className="btn-uiverse group">
+              <span className="flex items-center gap-2.5">
+                Partner With Us
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 ease-out group-hover:translate-x-1 shrink-0 self-center">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <path d="M5 12l14 0" />
+                  <path d="M15 16l4 -4" />
+                  <path d="M15 8l4 4" />
+                </svg>
+              </span>
             </Link>
           </div>
 
         </div>
-        {/* <div className="container mx-auto px-6 relative z-10 text-center max-w-4xl flex flex-col items-center justify-center gap-6">
-          <h2 className="split-heading mb-0!important; about-title-margin font-weight-500!important text-white-heading font-medium">
-            Let's Build Powerful Connections Together
-          </h2>
-          <p className="text-xl text-slate-300 mb-12 max-w-2xl mx-auto text-center">
-            Partner with Flashcab Cables Pvt. Ltd. for reliable, safe, and high-performance cable solutions.
-          </p>
-          <div className="flex items-center justify-center w-full">
-            <Link to="/contact" className="solax-btn-dark group">
-              <div className="solax-btn-dot"></div>
-              <span>Partner With Us</span>
-              <ArrowRight size={18} className="transform transition-transform duration-300 group-hover:translate-x-1" />
-            </Link>
-          </div>
-        </div> */}
       </section>
 
     </div>

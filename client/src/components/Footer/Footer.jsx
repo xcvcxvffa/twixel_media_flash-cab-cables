@@ -101,7 +101,7 @@ const Footer = () => {
             <a href="https://twixel.media/" target="_blank" rel="noopener noreferrer" className="hover:text-[#2fa084] transition-colors font-medium">Twixel Media Pvt Ltd</a>
           </p>
           <div className="footer-bottom-links">
-            <a href="#">Privacy Policy</a>
+            <Link to="/cookie-policy">Cookie Policy</Link>
             <a href="#">Terms of Use</a>
             <a href="#">Refund Policy</a>
           </div>
