@@ -790,6 +790,57 @@
   }
 }
 
+/* ===== Spreadsheet Render Styles ===== */
+.spec-html-container table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05) !important;
+  font-family: var(--font-body, inherit) !important;
+}
+
+.spec-html-container th {
+  background-color: #1e3a8a !important; /* Dark blue */
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  padding: 16px 14px !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  text-align: center !important;
+}
+
+/* Ensure strong visibility for cells */
+.spec-html-container td {
+  padding: 14px 14px !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #334155 !important;
+  font-size: 14px !important;
+  text-align: center !important;
+  transition: all 0.2s ease !important;
+  background-color: #ffffff !important;
+}
+
+/* Clean alternating rows */
+.spec-html-container tr:nth-child(even) td {
+  background-color: #f8fafc !important;
+}
+
+/* Highlight row on hover */
+.spec-html-container tbody tr:hover td {
+  background-color: #f1f5f9 !important;
+  color: #2fa084 !important;
+}
+
+/* Make sure paragraphs inside td don't mess up padding */
+.spec-html-container td p, .spec-html-container th p {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+
 /* ===== Application Card Spacing ===== */
 .application-card {
   padding: 30px 24px !important;
@@ -4291,4 +4342,4 @@ section.why-flashcab-section .premium-about-desc {
 
 .animate-marquee-track:hover {
   animation-play-state: paused;
-}
+} 

@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useInView } from 'framer-motion';
 import { Zap, Star, Globe, ArrowRight, ShieldCheck, Leaf, Cpu } from 'lucide-react';
+import Leadership from '../components/Leadership/Leadership';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -868,6 +869,9 @@ const Home = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Leadership Section */}
+            <Leadership />
             {/* Blog & News Section */}
             {/* <section className="section-padding py-24 bg-[#f8fafc] overflow-hidden">
                 <div className="container mx-auto px-4 sm:px-6 lg:px-8">
