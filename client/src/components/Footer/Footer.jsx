@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const Footer = () => {
-  const brandName = "FLASH CAB CABLES";
+  const brandName = "FLASHCAB CABLES";
 
   return (
     <footer className="custom-footer">

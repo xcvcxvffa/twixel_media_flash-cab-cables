@@ -5,6 +5,43 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ArrowRight, ArrowLeft, Zap, CheckCircle2, ShieldCheck, Settings2, Package } from 'lucide-react';
 import Preloader from '../components/Preloader/Preloader';
+import { productCategories } from '../data/productData';
+
+const mapStaticProduct = (prod) => {
+  const technicalDetails = Object.entries(prod.specs?.technicalData || {}).map(([key, value]) => ({ label: key, value: String(value) }));
+  
+  const features = [];
+  if (prod.specs?.salientFeatures && prod.specs.salientFeatures.length > 0) {
+    features.push({ title: 'Salient Features', description: `<ul class="list-disc pl-5">` + prod.specs.salientFeatures.map(f => `<li>${f}</li>`).join('') + `</ul>` });
+  }
+  if (prod.specs?.standardPacking) {
+    const pkStr = Object.entries(prod.specs.standardPacking).map(([k, v]) => `<li><b>${k}:</b> ${v}</li>`).join('');
+    features.push({ title: 'Standard Packing', description: `<ul class="list-disc pl-5">${pkStr}</ul>` });
+  }
+
+  let tableHtml = "";
+  if (prod.specs?.tableData && prod.specs.tableData.length > 0) {
+     const headers = Object.keys(prod.specs.tableData[0]);
+     tableHtml = `<table style="border-collapse: collapse; width: 100%;" border="1"><thead><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>` + 
+                 prod.specs.tableData.map(row => `<tr>${headers.map(h => `<td>${row[h]}</td>`).join('')}</tr>`).join('') +
+                 `</tbody></table>`;
+  }
+
+  return {
+    _id: `static_${prod.id}`,
+    id: prod.id,
+    slug: prod.id,
+    name: prod.name,
+    description: prod.specs?.application || '',
+    imgList: [
+      { img: prod.image },
+      ...(prod.image2 ? [{ img: prod.image2 }] : [])
+    ],
+    technicalDetails: technicalDetails,
+    features: features,
+    specificationHtml: tableHtml
+  };
+};
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -27,9 +64,19 @@ const Products = () => {
       .then(res => res.json())
       .then(data => {
         const fetchedProducts = data.data || [];
-        setProducts(fetchedProducts);
+        const fetchedSlugs = fetchedProducts.map(p => p.slug || p.id);
+        
+        // Find static products that haven't been added to DB yet
+        const staticFallbackProducts = productCategories
+          .filter(p => !fetchedSlugs.includes(p.id))
+          .map(mapStaticProduct);
+          
+        const combinedProducts = [...fetchedProducts, ...staticFallbackProducts];
+        
+        setProducts(combinedProducts);
+        
         if (productId) {
-          const found = fetchedProducts.find(p => p.id === productId || p.slug === productId);
+          const found = combinedProducts.find(p => p.id === productId || p.slug === productId);
           setActiveProduct(found || null);
         } else {
           setActiveProduct(null);
@@ -38,6 +85,16 @@ const Products = () => {
       })
       .catch(err => {
         console.error('Error fetching products:', err);
+        
+        // On completely failed API, load all static products
+        const allStatic = productCategories.map(mapStaticProduct);
+        setProducts(allStatic);
+        if (productId) {
+          const found = allStatic.find(p => p.id === productId || p.slug === productId);
+          setActiveProduct(found || null);
+        } else {
+          setActiveProduct(null);
+        }
         setLoading(false);
       });
   }, [productId]);
@@ -185,7 +242,7 @@ const Products = () => {
                         let textClass = "text-[#6b7280]";
                         let iconName = "CheckCircle2";
                         
-                        const titleLower = feature.title.toLowerCase();
+                        const titleLower = (feature.title || '').toLowerCase();
                         if (titleLower.includes('standard packing') || titleLower.includes('packing')) {
                           bgClass = "bg-[#d1fae5]"; textClass = "text-[#10b981]"; iconName = "Package";
                         } else if (titleLower.includes('salient') || titleLower.includes('features')) {
