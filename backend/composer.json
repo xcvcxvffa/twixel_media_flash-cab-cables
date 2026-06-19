@@ -1,0 +1,17 @@
+{
+    "name": "flashcab/api",
+    "description": "FlashCab Cables PHP REST API",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "firebase/php-jwt": "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "FlashCab\\": "src/"
+        }
+    },
+    "config": {
+        "optimize-autoloader": true
+    }
+}

@@ -4,10 +4,14 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MapPin, Phone, Mail, Send, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../context/SettingsContext';
+import usePageSEO from '../hooks/usePageSEO';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const Contact = () => {
+  const { settings } = useSettings();
+  const { pageSettings } = usePageSEO('contact');
   const containerRef = useRef(null);
   const [formData, setFormData] = useState({
     firstName: '',
@@ -98,8 +102,7 @@ const Contact = () => {
     e.preventDefault();
     setStatus('Sending...');
     try {
-      // Assuming server runs on 5000 in dev
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch('/api/contacts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)
@@ -119,7 +122,7 @@ const Contact = () => {
   return (
     <div ref={containerRef} className="contact-page-wrapper">
       {/* Page Header */}
-      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/industrial_mix_bg.png')" }}>
+      <div className="breadcrumb-hero" style={{ backgroundImage: `url('${pageSettings?.other_settings?.breadcrumb_image || '/assets/images/industrial_mix_bg.png'}')` }}>
          <h1 className="breadcrumb-title split-heading">
            Get in Touch
          </h1>
@@ -152,10 +155,8 @@ const Contact = () => {
                   </div>
                   <div className="contact-detail-text">
                     <span className="contact-detail-label">Corporate Office & Factory</span>
-                    <p className="contact-detail-value">
-                      R S NO 9 P4/P1, Plot No 1 & 2,<br/>
-                      National Highway 27, Opp. BPCL Petrol Pump,
-                      Biliyala, Gondal, <br/>Rajkot, Gujarat-360005
+                    <p className="contact-detail-value whitespace-pre-wrap">
+                      {settings.address}
                     </p>
                   </div>
                 </div>
@@ -168,7 +169,7 @@ const Contact = () => {
                   <div className="contact-detail-text">
                     <span className="contact-detail-label">Sales & Inquiry</span>
                     <p className="contact-detail-phone">
-                      +91 90 93 94 95 99
+                      {settings.phone}
                     </p>
                   </div>
                 </div>
@@ -181,7 +182,7 @@ const Contact = () => {
                   <div className="contact-detail-text">
                     <span className="contact-detail-label">Email Us</span>
                     <p className="contact-detail-email">
-                      info@flashcabcables.com
+                      {settings.email}
                     </p>
                   </div>
                 </div>
@@ -258,7 +259,7 @@ const Contact = () => {
           <div className="gsap-reveal contact-map-wrapper">
             <iframe 
               className="contact-map-iframe"
-              src="https://www.google.com/maps?q=Flashcab+Cables+Pvt+Ltd,+National+Highway+27,+Opp+BPCL+Petrol+Pump,+Biliyala,+Gondal,+Rajkot,+Gujarat+360311&output=embed&z=15" 
+              src={settings.map_url} 
               allowFullScreen="" 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"

@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import gsap from 'gsap';
+import { useSettings } from '../../context/SettingsContext';
 
 const Header = () => {
+  const { settings } = useSettings();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const headerRef = useRef(null);
@@ -118,7 +120,7 @@ const Header = () => {
         <header ref={headerRef} className="header" style={{ position: 'sticky', top: 0, left: 0, width: '100%', zIndex: 1000 }}>
             <div className="container header-inner" style={{ maxWidth: '100%', padding: '0 40px', justifyContent: 'space-between', gap: '40px' }}>
                 <Link to="/" className="logo" style={{ flexShrink: 0, display: 'flex', alignItems: 'center', height: '50px' }}>
-                    <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '100%', width: 'auto', objectFit: 'contain' }} />
+                    <img src={settings.header_logo || "/assets/images/logo.png"} alt="Flash Cab Cables" style={{ height: '100%', width: 'auto', objectFit: 'contain' }} />
                 </Link>
                 
                 {/* Mobile Overlay */}
@@ -134,7 +136,7 @@ const Header = () => {
                         <li><Link to="/cable" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Cable</Link></li>
                         {/* <li><a href="/#conductors" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Conductors</a></li> */}
                         {/* <li><Link to="/services" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>EPC</Link></li> */}
-                        {/* <li><Link to="/blog" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Blog & News</Link></li> */}
+                        <li><Link to="/blog" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Blog & News</Link></li>
                         <li><Link to="/contact" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</Link></li>
                     </ul>
             </nav>

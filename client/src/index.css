@@ -4342,4 +4342,230 @@ section.why-flashcab-section .premium-about-desc {
 
 .animate-marquee-track:hover {
   animation-play-state: paused;
+}
+
+/* ===== Rich Text Styles for Blog Detail ===== */
+.rich-text-content {
+  color: #334155;
+  line-height: 1.8;
+  font-size: 1.125rem;
+}
+
+.rich-text-content p {
+  margin-bottom: 1.5rem;
+}
+
+.rich-text-content h1,
+.rich-text-content h2,
+.rich-text-content h3,
+.rich-text-content h4 {
+  color: #203a70;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-family: var(--font-heading, inherit);
+  line-height: 1.3;
+}
+
+.rich-text-content h1 { font-size: 2.25rem; }
+.rich-text-content h2 { font-size: 1.875rem; }
+.rich-text-content h3 { font-size: 1.5rem; }
+.rich-text-content h4 { font-size: 1.25rem; }
+
+.rich-text-content ul {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.rich-text-content ol {
+  list-style-type: decimal;
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.rich-text-content li {
+  margin-bottom: 0.5rem;
+}
+
+.rich-text-content a {
+  color: #2fa084;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  transition: color 0.2s;
+}
+
+.rich-text-content a:hover {
+  color: #1f6f5f;
+}
+
+.rich-text-content blockquote {
+  border-left: 4px solid #2fa084;
+  padding-left: 1.25rem;
+  font-style: italic;
+  color: #64748b;
+  margin: 2rem 0;
+  background: #f8fafc;
+  padding: 1rem 1.25rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.rich-text-content img {
+  border-radius: 12px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  margin: 2.5rem 0;
+  max-width: 100%;
+  height: auto;
+}
+
+.rich-text-content strong,
+.rich-text-content b {
+  color: #0f172a;
+  font-weight: 700;
+}
+
+.rich-text-content code {
+  background-color: #f1f5f9;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+  color: #e5267f;
+  font-family: monospace;
+}
+
+.rich-text-content pre {
+  background-color: #1e293b;
+  color: #f8fafc;
+  padding: 1.5rem;
+  border-radius: 12px;
+  overflow-x: auto;
+  margin: 2rem 0;
+}
+
+.rich-text-content pre code {
+  background-color: transparent;
+  color: inherit;
+  padding: 0;
 } 
+
+/* Blog Detail Layout System */
+.blog-layout-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .blog-layout-grid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 4rem;
+  }
+}
+
+.blog-main-column {
+  grid-column: span 1 / span 1;
+}
+
+@media (min-width: 1024px) {
+  .blog-main-column {
+    grid-column: span 8 / span 8;
+  }
+}
+
+.blog-sidebar-column {
+  grid-column: span 1 / span 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+  .blog-sidebar-column {
+    grid-column: span 4 / span 4;
+  }
+}
+
+.blog-detail-header {
+  margin-bottom: 2.5rem;
+  max-width: 56rem;
+}
+
+.blog-comment-section {
+  margin-top: 4rem;
+}
+
+.blog-recommended-section {
+  margin-top: 6rem;
+  padding-top: 4rem;
+  padding-bottom: 3rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Sidebar Widgets */
+.sidebar-widget {
+  background-color: #ffffff;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  border: 1px solid #f8fafc;
+}
+
+.sidebar-widget-title {
+  color: #1f6f5f;
+  font-weight: 700;
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.sidebar-widget-title span {
+  color: #1f6f5f;
+}
+
+@media (max-width: 768px) {
+  .sidebar-widget {
+    padding: 1.5rem;
+  }
+}
+
+.blog-category-label {
+  color: #5B7BBE;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.blog-main-title {
+  color: #1f6f5f;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 2rem;
+}
+
+.author-meta-name {
+  color: #1f6f5f;
+  font-weight: 700;
+}
+
+.rich-text-content {
+  line-height: 1.8;
+  font-size: 1.125rem;
+  color: #334155;
+  margin-top: 2.5rem;
+}
+
+.rich-text-content > *:not(:last-child) {
+  margin-bottom: 1.5rem;
+}
+
+.blog-detail-header {
+  margin-top: 3rem !important;
+  margin-bottom: 3.5rem !important;
+}

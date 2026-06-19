@@ -3,8 +3,9 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { ArrowRight, ArrowLeft, Zap, CheckCircle2, ShieldCheck, Settings2, Package } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Zap, CheckCircle2, ShieldCheck, Settings2, Package, Maximize2, X } from 'lucide-react';
 import Preloader from '../components/Preloader/Preloader';
+import usePageSEO from '../hooks/usePageSEO';
 import { productCategories } from '../data/productData';
 
 const mapStaticProduct = (prod) => {
@@ -46,6 +47,7 @@ const mapStaticProduct = (prod) => {
 gsap.registerPlugin(ScrollTrigger);
 
 const Products = () => {
+  const { pageSettings } = usePageSEO('products');
   const { productId } = useParams();
   const navigate = useNavigate();
 
@@ -54,13 +56,14 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [showPreloader, setShowPreloader] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedGalleryIndex, setSelectedGalleryIndex] = useState(null);
 
   const detailRef = useRef(null);
   const contentRef = useRef(null);
   const sidebarRef = useRef(null);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/products')
+    fetch('/api/products')
       .then(res => res.json())
       .then(data => {
         const fetchedProducts = data.data || [];
@@ -157,7 +160,29 @@ const Products = () => {
     }
   }, [activeProduct]);
 
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedGalleryIndex === null || !activeProduct) return;
+      const gallery = activeProduct.imgList.slice(3).filter(imgObj => imgObj && imgObj.img);
+      if (gallery.length === 0) return;
 
+      if (e.key === 'Escape') {
+        setSelectedGalleryIndex(null);
+      } else if (e.key === 'ArrowRight') {
+        setSelectedGalleryIndex((prev) => (prev === gallery.length - 1 ? 0 : prev + 1));
+      } else if (e.key === 'ArrowLeft') {
+        setSelectedGalleryIndex((prev) => (prev === 0 ? gallery.length - 1 : prev - 1));
+      }
+    };
+
+    if (selectedGalleryIndex !== null) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedGalleryIndex, activeProduct]);
 
   const renderProductDetails = (product) => {
     const mainImg = product.imgList && product.imgList.length > 0 ? product.imgList[0].img : '';
@@ -170,8 +195,8 @@ const Products = () => {
                   <div className="cable-banner-desc" dangerouslySetInnerHTML={{ __html: product.description }}></div>
                 </div>
                 <div className="cable-detail-banner-right">
-                  {product.imgList && product.imgList.length > 0 && (
-                    <img src={product.imgList.length > 1 ? product.imgList[1].img : product.imgList[0].img} alt={product.name} className="cable-banner-img" />
+                  {product.imgList && product.imgList.length > 1 && product.imgList[1]?.img && (
+                    <img src={product.imgList[1].img} alt={product.name} className="cable-banner-img" />
                   )}
                 </div>
               </div>
@@ -282,6 +307,37 @@ const Products = () => {
                 )}
 
 
+                {/* Product Gallery */}
+                {product.imgList && product.imgList.length > 3 && product.imgList.slice(3).some(img => img && img.img) && (
+                  <div className="detail-section-card animate-fade-in mt-12">
+                    <h3 className="section-primary-heading relative z-10 mb-8 md:mb-10">
+                      <span className="accent-pill"></span>
+                      <span className="split-heading">Product Gallery</span>
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                      {product.imgList.slice(3).filter(imgObj => imgObj && imgObj.img).map((imgObj, idx) => (
+                        <div 
+                          key={idx} 
+                          className="group relative rounded-2xl overflow-hidden border border-gray-100 bg-gray-50 aspect-video sm:aspect-square flex items-center justify-center hover:shadow-2xl transition-all duration-500 cursor-pointer"
+                          onClick={() => setSelectedGalleryIndex(idx)}
+                        >
+                          <img 
+                            src={imgObj.img} 
+                            alt={`${product.name} Gallery ${idx + 1}`} 
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" 
+                          />
+                          <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center backdrop-blur-[2px]">
+                            <div className="bg-white/95 text-gray-900 rounded-full w-14 h-14 flex items-center justify-center shadow-2xl transform translate-y-6 group-hover:translate-y-0 transition-all duration-500 ease-out">
+                              <Maximize2 size={22} className="text-[#203a70]" />
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+
                 {/* Dynamic Table Grid */}
                 {product.specificationHtml ? (
                   <div className="detail-section-card spec-table mt-12 overflow-x-auto">
@@ -333,7 +389,14 @@ const Products = () => {
       {showPreloader && <Preloader onComplete={() => setShowPreloader(false)} />}
       <div className="min-h-screen bg-white pt-24 pb-20">
       {/* Dynamic Breadcrumb Section */}
-      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/mega_cables.png')" }}>
+      <div 
+        className="breadcrumb-hero" 
+        style={{ 
+          backgroundImage: activeProduct && activeProduct.imgList && activeProduct.imgList.length > 2 && activeProduct.imgList[2]?.img
+            ? `url('${activeProduct.imgList[2].img}')` 
+            : `url('${pageSettings?.other_settings?.breadcrumb_image || '/assets/images/mega_cables.png'}')` 
+        }}
+      >
         <h1 className="breadcrumb-title">
           <span key={activeProduct ? activeProduct.id : 'cable'} className="split-heading">
             {activeProduct ? activeProduct.name : 'Cable'}
@@ -412,7 +475,7 @@ const Products = () => {
                           className="rounded-2xl overflow-hidden relative transition-all duration-300 group-hover:-translate-y-2 group-hover:shadow-xl w-full mb-5 border border-gray-100"
                           style={{ backgroundColor: '#EFEFEF', paddingTop: '24px', paddingRight: '24px', paddingLeft: '24px'  }}
                         >
-                          {item.imgList && item.imgList.length > 0 ? (
+                          {item.imgList && item.imgList.length > 0 && item.imgList[0]?.img ? (
                             <img
                               src={item.imgList[0].img}
                               alt={item.name}
@@ -436,6 +499,58 @@ const Products = () => {
         </main>
       </div>
       </div>
+
+      {/* Lightbox Modal */}
+      {selectedGalleryIndex !== null && activeProduct && (
+        <div 
+          className="fixed inset-0 flex items-center justify-center bg-black/90 transition-opacity animate-fade-in"
+          onClick={() => setSelectedGalleryIndex(null)}
+          style={{ zIndex: 99999 }}
+        >
+          <div className="relative max-w-6xl w-full h-full flex items-center justify-center p-4 md:p-10">
+            <button 
+              className="absolute top-6 right-6 md:top-8 md:right-8 text-white hover:text-gray-200 bg-gray-800/80 hover:bg-gray-700 rounded-full w-12 h-12 flex items-center justify-center shadow-xl z-[100000] transition-all duration-300 hover:scale-110"
+              onClick={(e) => { e.stopPropagation(); setSelectedGalleryIndex(null); }}
+            >
+              <X size={24} strokeWidth={2.5} />
+            </button>
+
+            {/* Slider Navigation */}
+            {activeProduct.imgList && activeProduct.imgList.slice(3).filter(imgObj => imgObj && imgObj.img).length > 1 && (
+              <>
+                <button 
+                  className="absolute left-4 md:left-8 top-1/2 -translate-y-1/2 text-white hover:text-gray-200 bg-gray-800/80 hover:bg-gray-700 rounded-full w-12 h-12 flex items-center justify-center shadow-xl z-[100000] transition-all duration-300 hover:scale-110"
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    const gallery = activeProduct.imgList.slice(3).filter(imgObj => imgObj && imgObj.img);
+                    setSelectedGalleryIndex((prev) => prev === 0 ? gallery.length - 1 : prev - 1); 
+                  }}
+                >
+                  <ArrowLeft size={24} strokeWidth={2.5} />
+                </button>
+                <button 
+                  className="absolute right-4 md:right-8 top-1/2 -translate-y-1/2 text-white hover:text-gray-200 bg-gray-800/80 hover:bg-gray-700 rounded-full w-12 h-12 flex items-center justify-center shadow-xl z-[100000] transition-all duration-300 hover:scale-110"
+                  onClick={(e) => { 
+                    e.stopPropagation(); 
+                    const gallery = activeProduct.imgList.slice(3).filter(imgObj => imgObj && imgObj.img);
+                    setSelectedGalleryIndex((prev) => prev === gallery.length - 1 ? 0 : prev + 1); 
+                  }}
+                >
+                  <ArrowRight size={24} strokeWidth={2.5} />
+                </button>
+              </>
+            )}
+
+            <img 
+              key={selectedGalleryIndex}
+              src={activeProduct.imgList.slice(3).filter(imgObj => imgObj && imgObj.img)[selectedGalleryIndex]?.img} 
+              alt="Gallery Full Size" 
+              className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl animate-fade-in" 
+              onClick={(e) => e.stopPropagation()} 
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

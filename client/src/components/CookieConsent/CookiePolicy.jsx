@@ -4,11 +4,13 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Cookie, ShieldCheck, Settings, Eye } from 'lucide-react';
+import usePageSEO from '../../hooks/usePageSEO';
 import './CookiePolicy.css';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const CookiePolicy = () => {
+  const { pageSettings } = usePageSEO('cookie-policy');
   const containerRef = useRef(null);
 
   useGSAP(() => {
@@ -32,7 +34,7 @@ const CookiePolicy = () => {
   return (
     <div ref={containerRef} className="cookie-policy-page">
       {/* Modern Page Header */}
-      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/industrial_mix_bg.png')" }}>
+      <div className="breadcrumb-hero" style={{ backgroundImage: `url('${pageSettings?.other_settings?.breadcrumb_image || '/assets/images/industrial_mix_bg.png'}')` }}>
          <h1 className="breadcrumb-title">
            Cookie Policy
          </h1>

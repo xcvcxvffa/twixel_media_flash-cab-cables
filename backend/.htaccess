@@ -1,0 +1,29 @@
+Options -Indexes
+
+# Enable mod_rewrite
+RewriteEngine On
+
+# Allow direct access to existing files and directories
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Route all requests to index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Security: deny access to sensitive files
+<FilesMatch "\.(env|sql|log|json|lock)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# But allow composer.json to be blocked too
+<Files "composer.json">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# PHP settings for file uploads (base64 can be large)
+php_value upload_max_filesize 50M
+php_value post_max_size 50M
+php_value memory_limit 256M
+php_value max_execution_time 300

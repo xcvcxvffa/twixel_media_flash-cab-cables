@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useSettings } from '../../context/SettingsContext';
 
 const Footer = () => {
+  const { settings } = useSettings();
   const brandName = "FLASHCAB CABLES";
 
   return (
@@ -11,17 +13,26 @@ const Footer = () => {
         <div className="custom-footer-top">
           {/* 1. Logo, Text & Social Links */}
           <div className="footer-col-about">
-            <Link to="/" className="logo mb-6" style={{ display: 'flex', alignItems: 'center' }}>
-              <img src="/assets/images/logo_colored.png" alt="Flash Cab Cables" style={{ height: '50px', width: 'auto', objectFit: 'contain' }} />
+            <Link to="/" className="logo mb-6" style={{ display: 'flex', alignItems: 'center', marginBottom: '25px' }}>
+              <img src={settings.footer_logo || "/assets/images/logo_colored.png"} alt="Flash Cab Cables" style={{ height: '50px', width: 'auto', objectFit: 'contain' }} />
             </Link>
             <p className="footer-text mb-8">
               Providing reliable electrical services with a focus on safety, efficiency, and advanced technology.
             </p>
             <div className="footer-social-wrapper">
-              <a href="https://www.facebook.com/profile.php?id=61572152092842" target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-facebook-f"></i></a>
-              <a href="https://www.linkedin.com/company/flashcab-cables-pvt-ltd/" target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-linkedin-in"></i></a>
-              <a href="https://www.instagram.com/flashcab.cables/" target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-instagram"></i></a>
-              <a href="https://wa.me/919093949599" target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-whatsapp"></i></a>
+              <a href={settings.facebook} target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-facebook-f"></i></a>
+              <a href={settings.linkedin} target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-linkedin-in"></i></a>
+              <a href={settings.instagram} target="_blank" rel="noopener noreferrer" className="footer-social-icon"><i className="fa-brands fa-instagram"></i></a>
+              {(settings.whatsapp || settings.phone) && (
+                <a 
+                  href={settings.whatsapp || `https://wa.me/${settings.phone.replace(/[^0-9]/g, '')}`} 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="footer-social-icon"
+                >
+                  <i className="fa-brands fa-whatsapp"></i>
+                </a>
+              )}
             </div>
           </div>
 
@@ -32,7 +43,7 @@ const Footer = () => {
               <Link to="/" className="footer-qlink">Home</Link>
               <Link to="/about" className="footer-qlink">About Us</Link>
               {/* <Link to="/services" className="footer-qlink">EPC</Link> */}
-              {/* <Link to="/blog" className="footer-qlink">News</Link> */}
+              <Link to="/blog" className="footer-qlink">News</Link>
               <Link to="/contact" className="footer-qlink">Contact Us</Link>
             </div>
           </div>
@@ -56,7 +67,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">Office & Manufacturing Address</h5>
-                  <span className="text-gray-500 text-sm leading-relaxed">R S NO 9 P4/P1, Plot No 1 & 2, National Highway 27, Opp. BPCL Petrol Pump, Biliyala, Gondal, Rajkot, Gujarat-360005</span>
+                  <span className="text-gray-500 text-sm leading-relaxed whitespace-pre-wrap">{settings.address}</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -65,7 +76,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">Contact No.</h5>
-                  <span className="text-gray-500 text-sm">+91 90 93 94 95 99</span>
+                  <span className="text-gray-500 text-sm">{settings.phone}</span>
                 </div>
               </li>
               <li className="flex items-start gap-4">
@@ -74,7 +85,7 @@ const Footer = () => {
                 </div>
                 <div>
                   <h5 className="text-[#405473] font-bold text-[15px] mb-1">E-mail</h5>
-                  <span className="text-gray-500 text-sm">info@flashcabcables.com</span>
+                  <span className="text-gray-500 text-sm">{settings.email}</span>
                 </div>
               </li>
             </ul>

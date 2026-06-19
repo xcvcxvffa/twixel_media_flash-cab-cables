@@ -12,8 +12,12 @@ import CookiePolicy from './components/CookieConsent/CookiePolicy';
 import Preloader from './components/Preloader/Preloader';
 import CookieConsent from './components/CookieConsent/CookieConsent';
 
+import BlogDetail from './pages/BlogDetail';
+import useAnalytics from './hooks/useAnalytics';
+
 function AppContent() {
   const location = useLocation();
+  useAnalytics();
 
   return (
     <>
@@ -29,6 +33,7 @@ function AppContent() {
             <Route path="/cable" element={<Products key={location.key} />} />
             <Route path="/cable/:productId" element={<Products key={location.key} />} />
             <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogDetail />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/cookie-policy" element={<CookiePolicy />} />
           </Routes>
@@ -41,11 +46,15 @@ function AppContent() {
   );
 }
 
+import { SettingsProvider } from './context/SettingsContext';
+
 function App() {
   return (
-    <Router>
-      <AppContent />
-    </Router>
+    <SettingsProvider>
+      <Router>
+        <AppContent />
+      </Router>
+    </SettingsProvider>
   );
 }
 

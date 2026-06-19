@@ -113,8 +113,8 @@ export const productCategories = [
   {
     id: 'industrial-power-control-cables',
     name: 'Industrial Power & Control Cables',
-    image: '/assets/images/WEB WIRE IMAGE/VERTICAL/Industrial wire.png',
-    image2: '/assets/images/WEB WIRE IMAGE/HORIZONTAL/industrial wire.png',
+    image: '/assets/images/cables.png',
+    image2: '/assets/images/industrial_cable.png',
     subCategories: [],
     specs: {
       cableStandard: 'IEC 60228 / IEC 60502-1 / IS 1554',

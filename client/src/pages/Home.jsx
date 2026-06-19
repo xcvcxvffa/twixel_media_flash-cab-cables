@@ -5,6 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { motion, useInView } from 'framer-motion';
 import { Zap, Star, Globe, ArrowRight, ShieldCheck, Leaf, Cpu } from 'lucide-react';
 import Leadership from '../components/Leadership/Leadership';
+import usePageSEO from '../hooks/usePageSEO';
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -44,6 +45,7 @@ const AnimatedNumber = ({ target }) => {
 };
 
 const Home = () => {
+    usePageSEO('home');
     const container = useRef(null);
     const glanceSliderRef = useRef(null);
     const swipeCursorRef = useRef(null);
@@ -425,7 +427,7 @@ const Home = () => {
                                     <img src="/assets/images/about_polaroid_2.jpg" alt="Quality Assurance" />
                                 </div>
                                 <div className="polaroid-card polaroid-front">
-                                    <img src="/assets/images/about_polaroid_1.jpg" alt="Flash Cab Cables" />
+                                    <img src="/assets/images/flashcab_01.jpeg" alt="Flash Cab Cables" />
                                 </div>
                             </div>
                         </div>

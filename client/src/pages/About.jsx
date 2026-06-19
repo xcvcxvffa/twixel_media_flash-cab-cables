@@ -10,6 +10,8 @@ import {
   Home, Power, Radio, Sprout, Building, Download, ShieldAlert, Zap,
   Calendar, MapPin, Network, FlaskConical, ClipboardCheck, Timer, Headset
 } from 'lucide-react';
+import Leadership from '../components/Leadership/Leadership';
+import usePageSEO from '../hooks/usePageSEO';
 import SideRays from '../components/SideRays/SideRays';
 import '../stars.css';
 
@@ -85,6 +87,7 @@ const AnimatedCounter = ({ target, suffix = '' }) => {
 };
 
 const About = () => {
+  const { pageSettings } = usePageSEO('about');
   const containerRef = useRef(null);
   const [hoveredIndustry, setHoveredIndustry] = useState(null);
 
@@ -395,7 +398,7 @@ const About = () => {
     <div ref={containerRef} className="about-page-wrapper bg-[#F8F9FB] text-[#111111] overflow-hidden font-sans">
 
       {/* Page Header (Theme Breadcrumb) */}
-      <div className="breadcrumb-hero pt-24" style={{ backgroundImage: "url('/assets/images/team_working.png')" }}>
+      <div className="breadcrumb-hero pt-24" style={{ backgroundImage: `url('${pageSettings?.other_settings?.breadcrumb_image || '/assets/images/team_working.png'}')` }}>
         <h1 className="breadcrumb-title split-heading">
           About Us
         </h1>
@@ -420,7 +423,7 @@ const About = () => {
                   <img src="/assets/images/about_polaroid_2.jpg" alt="Quality Assurance" />
                 </div>
                 <div className="polaroid-card polaroid-front">
-                  <img src="/assets/images/about_polaroid_1.jpg" alt="Flash Cab Cables" />
+                  <img src="/assets/images/flashcab_01.jpeg" alt="Flash Cab Cables" />
                 </div>
               </div>
             </div>
@@ -558,7 +561,7 @@ const About = () => {
           { year: '2015', title: 'Regional Market Leadership', desc: 'Achieved market leadership in the Saurashtra region by delivering consistent quality and building trusted partnerships with distributors.', img: '/assets/images/industrial_mix_bg.png' },
           { year: '2018', title: 'Advanced Testing Facility', desc: 'Launched a cutting-edge testing laboratory to ensure every product meets international quality and safety standards.', img: '/assets/images/team_working.png' },
           { year: '2021', title: 'Multi-State Expansion', desc: 'Expanded distribution network across multiple states, strengthening the brand presence and serving a wider customer base.', img: '/assets/images/about_polaroid_2.jpg' },
-          { year: '2024', title: "11KV HT Cable Manufacturer", desc: "Became Saurashtra's first 11KV HT cable manufacturer, marking a milestone in high-voltage cable production capabilities.", img: '/assets/images/about_polaroid_1.jpg' },
+          { year: '2024', title: "11KV HT Cable Manufacturer", desc: "Became Saurashtra's first 11KV HT cable manufacturer, marking a milestone in high-voltage cable production capabilities.", img: '/assets/images/flashcab_01.jpeg' },
         ];
 
         const [activeIndex, setActiveIndex] = React.useState(0);

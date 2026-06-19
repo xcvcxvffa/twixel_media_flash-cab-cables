@@ -1,0 +1,13 @@
+# PHP Dependencies (composer install se generate hoti hain)
+vendor/
+
+# Environment file (secret credentials - KABHI COMMIT MAT KARO!)
+.env
+
+# Uploaded files (user content - large files, not code)
+uploads/*
+!uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db

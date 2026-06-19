@@ -2,32 +2,53 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { blogPosts } from '../data/blogData';
+import { Link, useNavigate } from 'react-router-dom';
+import usePageSEO from '../hooks/usePageSEO';
 
 const Blog = () => {
+  const { pageSettings } = usePageSEO('blogs');
+  const [blogPosts, setBlogPosts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
-  const [displayedPosts, setDisplayedPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [activeCategory, setActiveCategory] = useState('All');
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/api/blogs?status=published&t=${new Date().getTime()}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log('Fetched blogs API response:', data);
+        if (data.data && Array.isArray(data.data)) {
+            setBlogPosts(data.data);
+        } else if (Array.isArray(data)) {
+            setBlogPosts(data);
+        }
+      })
+      .catch(err => {
+          console.error('Error fetching blogs:', err);
+          alert('Fetch error: ' + err.message);
+      });
+  }, []);
+
   const POSTS_PER_PAGE = 6;
   const loaderRef = useRef(null);
 
   // Filter posts based on search query
   const filteredPosts = blogPosts.filter(post => 
     post.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    post.category.toLowerCase().includes(searchQuery.toLowerCase())
+    (post.category && post.category.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
+  // Calculate displayed posts based on current page
+  const displayedPosts = filteredPosts.slice(0, page * POSTS_PER_PAGE);
+  
   // Initialize and handle search changes
   useEffect(() => {
     setPage(1);
-    setDisplayedPosts(filteredPosts.slice(0, POSTS_PER_PAGE));
     setHasMore(filteredPosts.length > POSTS_PER_PAGE);
-  }, [searchQuery]);
+  }, [searchQuery, blogPosts]);
 
   // Load more posts
   const loadMorePosts = () => {
@@ -38,11 +59,8 @@ const Blog = () => {
     // Simulate network delay
     setTimeout(() => {
       const nextPage = page + 1;
-      const nextPosts = filteredPosts.slice(0, nextPage * POSTS_PER_PAGE);
-      
-      setDisplayedPosts(nextPosts);
       setPage(nextPage);
-      setHasMore(nextPosts.length < filteredPosts.length);
+      setHasMore(filteredPosts.length > nextPage * POSTS_PER_PAGE);
       setLoading(false);
     }, 1200); // 1.2 second simulated loading
   };
@@ -69,7 +87,7 @@ const Blog = () => {
         observer.unobserve(loaderRef.current);
       }
     };
-  }, [hasMore, loading, page, searchQuery]);
+  }, [hasMore, loading, page, searchQuery, blogPosts]);
 
   // Split Heading Animation (same as Products page)
   useGSAP(() => {
@@ -117,7 +135,7 @@ const Blog = () => {
   return (
     <div className="min-h-screen bg-white pt-24 pb-20">
       {/* Dynamic Breadcrumb Section */}
-      <div className="breadcrumb-hero" style={{ backgroundImage: "url('/assets/images/impact_bg.png')" }}>
+      <div className="breadcrumb-hero" style={{ backgroundImage: `url('${pageSettings?.other_settings?.breadcrumb_image || '/assets/images/impact_bg.png'}')` }}>
          <h1 className="breadcrumb-title">
            <span key={activeCategory} className="split-heading">
              {activeCategory === 'All' ? 'Blog & News' : activeCategory}
@@ -176,13 +194,14 @@ const Blog = () => {
             {displayedPosts.map((post, idx) => (
               <div 
                 key={post.id} 
-                className="blog-card animate-fade-in-up opacity-0"
+                className="blog-card animate-fade-in-up opacity-0 cursor-pointer"
                 style={{ animationDelay: `${(idx % POSTS_PER_PAGE) * 0.1}s`, animationFillMode: 'forwards' }}
+                onClick={() => navigate(`/blog/${post.slug}`)}
               >
                 {/* Full Width Image */}
                 <div className="blog-card-img-container">
                    <img 
-                     src={post.image} 
+                     src={post.image?.startsWith('http') ? post.image : `http://localhost:8000${post.image}`} 
                      alt={post.title} 
                    />
                 </div>
@@ -203,11 +222,11 @@ const Blog = () => {
                   
                   {/* Excerpt */}
                   <p className="blog-card-excerpt">
-                    {post.excerpt}
+                    {post.excerpt || (post.content ? post.content.replace(/<[^>]*>?/gm, '').substring(0, 100) + '...' : '')}
                   </p>
 
                   {/* Read More Button */}
-                  <button className="blog-card-btn group">
+                  <button className="blog-card-btn group" onClick={(e) => { e.stopPropagation(); navigate(`/blog/${post.slug}`); }}>
                     Read more
                     <ArrowRight size={18} strokeWidth={1.5} className="transition-transform duration-300" />
                   </button>
