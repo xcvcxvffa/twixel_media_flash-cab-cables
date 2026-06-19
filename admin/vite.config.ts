@@ -1,0 +1,43 @@
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import dynamicImport from 'vite-plugin-dynamic-import'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react({
+    babel: {
+      plugins: [
+        'babel-plugin-macros'
+      ]
+    }
+  }),
+  dynamicImport()],
+  assetsInclude: ['**/*.md'],
+  resolve: {
+    alias: {
+      '@': path.join(__dirname, 'src'),
+    },
+  },
+  build: {
+    outDir: 'build'
+  },
+  server: {
+    port: 5176,
+    strictPort: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/uploads': {
+        target: 'http://localhost:8000',
+        changeOrigin: true,
+      },
+      '/assets/images': {
+        target: 'http://localhost:5173',
+        changeOrigin: true,
+      }
+    }
+  }
+});
